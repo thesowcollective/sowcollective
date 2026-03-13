@@ -26,30 +26,28 @@
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 html, body { height: 100%; overflow: hidden; background: #0a0a18; font-family: 'Lato', sans-serif; color: var(--white); }
 
-/* APP SHELL */
+/* APP SHELL - mobile default */
 #app { display: flex; flex-direction: column; height: 100vh; width: 100%; max-width: 480px; margin: 0 auto; position: relative; overflow: hidden; background: var(--navy); }
+#desktop-sidebar { display: none; }
 
 /* TABLET */
 @media (min-width: 600px) and (max-width: 1023px) {
-  body { display: flex; align-items: stretch; justify-content: center; background: #0a0a18; }
-  #app { max-width: 640px; width: 100%; box-shadow: 0 0 60px #00000088; }
+  body { background: #0a0a18; }
+  #app { max-width: 640px; }
   .lyric-text { font-size: 18px; }
 }
 
-/* DESKTOP: true sidebar layout */
+/* DESKTOP */
 @media (min-width: 1024px) {
-  html, body { overflow: hidden; height: 100%; background: var(--navy); }
+  html, body { background: var(--navy); }
   #app {
     flex-direction: row;
     max-width: 100%;
     width: 100%;
+    margin: 0;
     height: 100vh;
     overflow: hidden;
-    margin: 0;
   }
-  .hdr { display: none !important; width: 0 !important; overflow: hidden !important; }
-  .nav { display: none !important; width: 0 !important; overflow: hidden !important; }
-
   #desktop-sidebar {
     display: flex !important;
     flex-direction: column;
@@ -71,25 +69,23 @@ html, body { height: 100%; overflow: hidden; background: #0a0a18; font-family: '
   #desktop-sidebar .ds-nav-btn:hover { color: var(--white); background: #ffffff06; }
   #desktop-sidebar .ds-nav-btn.active { color: var(--gold); border-left-color: var(--gold); background: #c9a84c0d; }
 
+  .hdr { display: none !important; }
+  .nav { display: none !important; }
+
   #main-content {
     flex: 1;
     min-width: 0;
-    width: 0;
     height: 100vh;
     overflow-y: auto;
     background: var(--navy);
-    display: flex;
-    flex-direction: column;
   }
-  #main-content .page { flex: none; }
-  .page { padding: 32px 48px; max-width: 100%; width: 100%; }
+  .page { padding: 32px 48px; max-width: 100%; }
   .home-grid { grid-template-columns: repeat(3, 1fr); }
   .recent-sermons { grid-template-columns: repeat(4, 1fr); }
   .latest-thumb { height: 220px; }
   .song-card, .book-card, .sermon-card, .my-song-card { padding: 14px 18px; }
   .song-title, .book-title, .sermon-title { font-size: 15px; }
   .lyric-text { font-size: 18px; }
-  .setlist-header { max-width: 100%; }
   .detail-view { position: fixed; inset: 0; z-index: 50; }
   .pulpit-view { position: fixed; inset: 0; z-index: 50; }
   .present-view { position: fixed; inset: 0; z-index: 50; }
@@ -230,7 +226,7 @@ html, body { height: 100%; overflow: hidden; background: #0a0a18; font-family: '
 .present-chord-toggle { background: transparent; border: 1px solid #ffffff33; border-radius: 8px; padding: 4px 10px; color: var(--muted); font-size: 11px; cursor: pointer; white-space: nowrap; transition: all 0.2s; }
 .present-chord-toggle.on { color: var(--gold); border-color: var(--gold); }
 .present-close { background: transparent; border: 1px solid #ffffff33; border-radius: 8px; padding: 5px 12px; color: white; font-size: 12px; cursor: pointer; }
-.present-song-area { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px 40px; overflow: auto; }
+.present-song-area { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 24px 40px; overflow-y: auto; scroll-behavior: smooth; }
 .present-song-title { font-size: clamp(18px, 3vw, 28px); font-weight: 700; color: var(--gold); font-family: 'Cinzel', serif; text-align: center; margin-bottom: 20px; letter-spacing: 2px; }
 .present-section-label { font-size: 10px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 16px; font-family: 'Cinzel', serif; }
 .present-lyrics { font-size: clamp(18px, 3vw, 30px); color: white; text-align: center; line-height: 2; font-weight: 300; width: 100%; }
@@ -1149,17 +1145,18 @@ function toggleAutoScroll() {
 function startAutoScroll() {
   clearInterval(autoScrollInterval);
   const area = document.getElementById('present-song-area');
-  const pixelsPerTick = scrollSpeedValue * 0.5;
+  const pixelsPerTick = scrollSpeedValue * 0.6;
   autoScrollInterval = setInterval(() => {
     if (!autoScrollActive) return;
     const maxScroll = area.scrollHeight - area.clientHeight;
-    if (area.scrollTop >= maxScroll - 2) {
-      // Auto advance to next section
-      presentNav(1);
+    if (area.scrollTop >= maxScroll - 5) {
+      // reached bottom — advance to next section after short pause
+      stopAutoScroll();
+      setTimeout(() => { presentNav(1); }, 800);
     } else {
       area.scrollTop += pixelsPerTick;
     }
-  }, 50);
+  }, 40);
 }
 
 function stopAutoScroll() {
