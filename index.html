@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,7 +27,7 @@
 html, body { height: 100%; overflow: hidden; background: #0a0a18; font-family: 'Lato', sans-serif; color: var(--white); }
 
 /* APP SHELL - mobile default */
-#app { display: flex; flex-direction: column; height: 100vh; width: 100%; max-width: 480px; margin: 0 auto; position: relative; overflow: hidden; background: var(--navy); }
+#app { display: flex; flex-direction: column; height: 100vh; width: 100%; max-width: 480px; margin: 0 auto; overflow: hidden; background: var(--navy); }
 #desktop-sidebar { display: none; }
 
 /* TABLET */
@@ -77,10 +76,12 @@ html, body { height: 100%; overflow: hidden; background: #0a0a18; font-family: '
     flex: 1;
     min-width: 0;
     height: 100vh;
-    overflow-y: auto;
+    overflow: hidden;
     background: var(--navy);
+    display: flex;
+    flex-direction: column;
   }
-  .page { padding: 32px 48px; max-width: 100%; }
+  .page { padding: 32px 48px; max-width: 100%; flex: 1; }
   .home-grid { grid-template-columns: repeat(3, 1fr); }
   .recent-sermons { grid-template-columns: repeat(4, 1fr); }
   .latest-thumb { height: 220px; }
@@ -105,8 +106,8 @@ html, body { height: 100%; overflow: hidden; background: #0a0a18; font-family: '
 .nav-btn.active { color: var(--gold); border-bottom: 2px solid var(--gold); }
 
 /* PAGES */
-#main-content { display: flex; flex-direction: column; flex: 1; min-width: 0; overflow: hidden; }
-.page { display: none; flex: 1; overflow-y: auto; padding: 14px; scrollbar-width: thin; scrollbar-color: #c9a84c33 transparent; }
+#main-content { display: flex; flex-direction: column; flex: 1; min-width: 0; height: 100vh; overflow: hidden; }
+.page { display: none; overflow-y: auto; padding: 14px; flex: 1; scrollbar-width: thin; scrollbar-color: #c9a84c33 transparent; }
 .page.active { display: block; }
 .page::-webkit-scrollbar { width: 3px; }
 .page::-webkit-scrollbar-track { background: transparent; }
