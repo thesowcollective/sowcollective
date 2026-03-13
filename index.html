@@ -29,35 +29,68 @@ html, body { height: 100%; overflow: hidden; background: #0a0a18; font-family: '
 /* APP SHELL */
 #app { display: flex; flex-direction: column; height: 100vh; max-width: 480px; margin: 0 auto; position: relative; overflow: hidden; background: var(--navy); }
 
-/* TABLET: side padding, slightly wider */
-@media (min-width: 600px) {
+/* TABLET */
+@media (min-width: 600px) and (max-width: 1023px) {
   body { display: flex; align-items: stretch; justify-content: center; background: #0a0a18; }
-  #app { max-width: 600px; width: 100%; box-shadow: 0 0 60px #00000088; }
-  .hdr-title { font-size: 28px; }
+  #app { max-width: 640px; width: 100%; box-shadow: 0 0 60px #00000088; }
   .lyric-text { font-size: 18px; }
   .present-lyrics { font-size: clamp(22px, 4vw, 36px); }
 }
 
-/* DESKTOP: full layout with sidebar */
+/* DESKTOP: true sidebar layout */
 @media (min-width: 1024px) {
-  body { display: flex; align-items: stretch; justify-content: center; background: #0a0a18; }
-  #app { max-width: 100%; width: 100%; flex-direction: row; flex-wrap: nowrap; box-shadow: none; }
-  .hdr { width: 240px; min-width: 240px; height: 100vh; display: flex; flex-direction: column; justify-content: flex-start; padding: 32px 20px 20px; border-right: 1px solid #c9a84c22; border-bottom: none; position: sticky; top: 0; }
-  .hdr-title { font-size: 26px; margin-top: 8px; }
-  .hdr-tagline { display: none; }
-  .nav { flex-direction: column; width: 240px; min-width: 240px; height: 100vh; overflow-y: auto; border-bottom: none; border-right: 1px solid #ffffff0a; padding-top: 12px; position: sticky; top: 0; }
-  .nav-btn { text-align: left; padding: 12px 20px; font-size: 11px; border-bottom: none; border-left: 3px solid transparent; border-right: none; }
-  .nav-btn.active { border-left: 3px solid var(--gold); border-bottom: none; background: #c9a84c0a; }
-  #main-content { flex: 1; height: 100vh; overflow-y: auto; display: flex; flex-direction: column; }
-  .page { padding: 28px 40px; max-width: 860px; }
+  html, body { overflow: hidden; height: 100%; }
+  body { background: #070712; display: flex; }
+  #app { flex-direction: row; max-width: 100%; width: 100%; height: 100vh; overflow: hidden; }
+
+  /* Hide default header and nav — replaced by #desktop-sidebar */
+  .hdr { display: none; }
+  .nav { display: none; }
+
+  #desktop-sidebar {
+    display: flex !important;
+    flex-direction: column;
+    width: 220px; min-width: 220px;
+    height: 100vh; flex-shrink: 0;
+    background: var(--navy2);
+    border-right: 1px solid #c9a84c22;
+    overflow: hidden;
+  }
+  #desktop-sidebar .ds-brand {
+    padding: 28px 20px 16px;
+    border-bottom: 1px solid #c9a84c11;
+  }
+  #desktop-sidebar .ds-sub { font-size: 8px; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; font-family: 'Cinzel', serif; }
+  #desktop-sidebar .ds-title { font-size: 20px; font-weight: 700; color: var(--white); font-family: 'Cinzel', serif; letter-spacing: 1px; margin-top: 4px; line-height: 1.1; }
+  #desktop-sidebar .ds-tagline { font-size: 9px; color: var(--muted); margin-top: 6px; line-height: 1.5; }
+  #desktop-sidebar .ds-nav { flex: 1; overflow-y: auto; padding: 8px 0; }
+  #desktop-sidebar .ds-nav-btn {
+    display: block; width: 100%;
+    text-align: left; padding: 13px 20px;
+    font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--muted); background: none; border: none;
+    border-left: 3px solid transparent;
+    cursor: pointer; font-family: 'Lato', sans-serif;
+    transition: all 0.2s;
+  }
+  #desktop-sidebar .ds-nav-btn:hover { color: var(--white); background: #ffffff06; }
+  #desktop-sidebar .ds-nav-btn.active { color: var(--gold); border-left-color: var(--gold); background: #c9a84c0d; }
+
+  #main-content {
+    flex: 1; height: 100vh; overflow-y: auto;
+    background: var(--navy);
+  }
+  .page { padding: 32px 48px; max-width: 860px; }
   .home-grid { grid-template-columns: repeat(3, 1fr); }
   .recent-sermons { grid-template-columns: repeat(4, 1fr); }
-  .latest-thumb { height: 200px; }
+  .latest-thumb { height: 220px; }
   .song-card, .book-card, .sermon-card, .my-song-card { padding: 14px 18px; }
-  .song-title, .book-title, .sermon-title { font-size: 16px; }
-  .detail-view { position: fixed; left: 480px; }
-  .pulpit-view { position: fixed; }
-  .present-view { position: fixed; }
+  .song-title, .book-title, .sermon-title { font-size: 15px; }
+  .lyric-text { font-size: 18px; }
+  .setlist-header { max-width: 720px; }
+  .detail-view { position: fixed; inset: 0; }
+  .pulpit-view { position: fixed; inset: 0; }
+  .present-view { position: fixed; inset: 0; }
 }
 
 /* HEADER */
@@ -179,16 +212,33 @@ html, body { height: 100%; overflow: hidden; background: #0a0a18; font-family: '
 .lyric-plain { font-size: 17px; color: var(--white); line-height: 1.8; margin-bottom: 4px; }
 
 /* ===== PRESENT MODE ===== */
-.present-view { display: none; position: fixed; inset: 0; background: #000; z-index: 100; flex-direction: column; }
+.present-view { display: none; position: fixed; inset: 0; background: #000; z-index: 100; flex-direction: row; }
 .present-view.open { display: flex; }
-.present-nav-bar { background: #0005; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; }
-.present-counter { font-size: 13px; color: var(--gold); font-family: 'Cinzel', serif; }
+.present-sidebar { width: 190px; min-width: 190px; background: #0d0d1a; border-right: 1px solid #ffffff11; display: flex; flex-direction: column; overflow: hidden; }
+.present-sidebar-title { padding: 14px 12px 10px; font-size: 9px; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; font-family: 'Cinzel', serif; border-bottom: 1px solid #ffffff0d; flex-shrink: 0; }
+.present-song-list { flex: 1; overflow-y: auto; }
+.present-song-item { padding: 10px 12px; cursor: pointer; border-bottom: 1px solid #ffffff08; transition: background 0.15s; border-left: 3px solid transparent; }
+.present-song-item:hover { background: #ffffff08; }
+.present-song-item.active { background: #c9a84c12; border-left-color: var(--gold); }
+.present-song-item-num { font-size: 9px; color: var(--muted); margin-bottom: 2px; }
+.present-song-item-title { font-size: 12px; color: var(--white); font-weight: 700; line-height: 1.3; }
+.present-main { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+.present-nav-bar { background: #0008; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; gap: 8px; }
+.present-counter { font-size: 12px; color: var(--gold); font-family: 'Cinzel', serif; white-space: nowrap; }
+.present-chord-toggle { background: transparent; border: 1px solid #ffffff33; border-radius: 8px; padding: 4px 10px; color: var(--muted); font-size: 11px; cursor: pointer; white-space: nowrap; transition: all 0.2s; }
+.present-chord-toggle.on { color: var(--gold); border-color: var(--gold); }
 .present-close { background: transparent; border: 1px solid #ffffff33; border-radius: 8px; padding: 5px 12px; color: white; font-size: 12px; cursor: pointer; }
-.present-song-area { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; overflow: hidden; }
-.present-song-title { font-size: 22px; font-weight: 700; color: var(--gold); font-family: 'Cinzel', serif; text-align: center; margin-bottom: 24px; letter-spacing: 2px; }
-.present-lyrics { font-size: clamp(20px, 5vw, 30px); color: white; text-align: center; line-height: 1.8; font-weight: 300; letter-spacing: 0.5px; }
-.present-arrows { display: flex; gap: 20px; padding: 16px; justify-content: center; }
-.p-arr { background: #ffffff11; border: 1px solid #ffffff22; border-radius: 10px; padding: 12px 32px; color: white; font-size: 22px; cursor: pointer; }
+.present-song-area { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px 40px; overflow: auto; }
+.present-song-title { font-size: clamp(18px, 3vw, 28px); font-weight: 700; color: var(--gold); font-family: 'Cinzel', serif; text-align: center; margin-bottom: 20px; letter-spacing: 2px; }
+.present-section-label { font-size: 10px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 16px; font-family: 'Cinzel', serif; }
+.present-lyrics { font-size: clamp(18px, 3vw, 30px); color: white; text-align: center; line-height: 2; font-weight: 300; width: 100%; }
+.present-chord-line { display: flex; justify-content: center; flex-wrap: wrap; gap: 2px; margin-bottom: 8px; }
+.present-chord-block { display: inline-flex; flex-direction: column; align-items: flex-start; min-width: 36px; }
+.present-chord-name { font-size: clamp(12px, 1.8vw, 18px); font-weight: 700; color: var(--gold); font-family: 'Cinzel', serif; min-height: 20px; }
+.present-lyric-word { font-size: clamp(18px, 2.8vw, 28px); color: white; line-height: 1.6; }
+.present-arrows { display: flex; gap: 16px; padding: 14px; justify-content: center; flex-shrink: 0; }
+.p-arr { background: #ffffff11; border: 1px solid #ffffff22; border-radius: 10px; padding: 10px 28px; color: white; font-size: 20px; cursor: pointer; }
+@media (max-width: 700px) { .present-sidebar { display: none; } }
 
 /* ===== MY SONGS PAGE ===== */
 .my-song-card { background: var(--card); border: 1px solid #c9a84c22; border-radius: 12px; margin-bottom: 10px; overflow: hidden; cursor: pointer; }
@@ -276,6 +326,22 @@ html, body { height: 100%; overflow: hidden; background: #0a0a18; font-family: '
 </head>
 <body>
 <div id="app">
+
+  <!-- DESKTOP SIDEBAR (hidden on mobile via CSS) -->
+  <div id="desktop-sidebar" style="display:none;">
+    <div class="ds-brand">
+      <div class="ds-sub">Strings of Worship</div>
+      <div class="ds-title">SOW<br>Collective</div>
+      <div class="ds-tagline">Songs · Books · Sermons</div>
+    </div>
+    <div class="ds-nav">
+      <button class="ds-nav-btn active" onclick="showPage('home');setDSActive(this)">Home</button>
+      <button class="ds-nav-btn" onclick="showPage('songs');setDSActive(this)">Songs</button>
+      <button class="ds-nav-btn" onclick="showPage('mysongspage');setDSActive(this)">My Songs</button>
+      <button class="ds-nav-btn" onclick="showPage('books');setDSActive(this)">Books</button>
+      <button class="ds-nav-btn" onclick="showPage('sermons');setDSActive(this)">Sermons</button>
+    </div>
+  </div>
 
   <!-- HEADER -->
   <div class="hdr">
@@ -398,17 +464,29 @@ html, body { height: 100%; overflow: hidden; background: #0a0a18; font-family: '
 
   <!-- Present Mode -->
   <div class="present-view" id="present-view">
-    <div class="present-nav-bar">
-      <div class="present-counter" id="present-counter">Song 1 of 5</div>
-      <button class="present-close" onclick="closePresent()">✕ Close</button>
+    <div class="present-sidebar">
+      <div class="present-sidebar-title">Setlist</div>
+      <div class="present-song-list" id="present-song-list"></div>
     </div>
-    <div class="present-song-area">
-      <div class="present-song-title" id="present-song-title"></div>
-      <div class="present-lyrics" id="present-lyrics"></div>
-    </div>
-    <div class="present-arrows">
-      <button class="p-arr" onclick="presentNav(-1)">‹</button>
-      <button class="p-arr" onclick="presentNav(1)">›</button>
+    <div class="present-main">
+      <div class="present-nav-bar">
+        <div class="present-counter" id="present-counter">Song 1 of 5</div>
+        <button class="present-chord-toggle on" id="present-chord-btn" onclick="togglePresentChords()">Chords</button>
+        <div style="display:flex;align-items:center;gap:6px;background:#ffffff0a;border-radius:8px;padding:4px 8px;">
+          <button id="autoscroll-btn" onclick="toggleAutoScroll()" style="background:transparent;border:none;color:var(--muted);font-size:11px;cursor:pointer;white-space:nowrap;padding:0;">⏵ Auto</button>
+          <input type="range" min="1" max="10" value="3" id="scroll-speed" style="width:55px;" title="Scroll speed" oninput="updateScrollSpeed()">
+        </div>
+        <button class="present-close" onclick="closePresent()">✕</button>
+      </div>
+      <div class="present-song-area" id="present-song-area">
+        <div class="present-song-title" id="present-song-title"></div>
+        <div id="present-lyrics" style="width:100%;text-align:center;"></div>
+      </div>
+      <div class="present-arrows">
+        <button class="p-arr" onclick="presentNav(-1)">‹ Prev</button>
+        <div id="present-section-dots" style="display:flex;gap:6px;align-items:center;"></div>
+        <button class="p-arr" onclick="presentNav(1)">Next ›</button>
+      </div>
     </div>
   </div>
 
@@ -950,53 +1028,152 @@ function toggleChords() {
 // ============================================================
 // PRESENT MODE
 // ============================================================
+let presentShowChords = true;
+let autoScrollActive = false;
+let autoScrollInterval = null;
+let scrollSpeedValue = 3;
+
 function presentSetlist(which) {
-  if (which === 1) {
-    presentSongs = [...setlist1];
-  } else {
-    presentSongs = [...setlist1, ...setlist2];
-  }
+  presentSongs = which === 1 ? [...setlist1] : [...setlist1, ...setlist2];
   if (!presentSongs.length) { alert('No songs in setlist yet! Add some songs first.'); return; }
   presentIndex = 0;
   presentSectionIndex = 0;
+  presentShowChords = true;
+  autoScrollActive = false;
+  clearInterval(autoScrollInterval);
+  document.getElementById('present-chord-btn').className = 'present-chord-toggle on';
+  document.getElementById('present-chord-btn').textContent = 'Chords';
+  document.getElementById('autoscroll-btn').style.color = 'var(--muted)';
+  document.getElementById('autoscroll-btn').textContent = '⏵ Auto';
+  renderPresentSidebar();
   renderPresent();
   document.getElementById('present-view').classList.add('open');
+}
+
+function renderPresentSidebar() {
+  document.getElementById('present-song-list').innerHTML = presentSongs.map((s,i) => `
+    <div class="present-song-item ${i===presentIndex?'active':''}" onclick="jumpToSong(${i})">
+      <div class="present-song-item-num">Song ${i+1}</div>
+      <div class="present-song-item-title">${s.title}</div>
+    </div>`).join('');
+}
+
+function jumpToSong(idx) {
+  presentIndex = idx;
+  presentSectionIndex = 0;
+  stopAutoScroll();
+  renderPresentSidebar();
+  renderPresent();
+}
+
+function togglePresentChords() {
+  presentShowChords = !presentShowChords;
+  const btn = document.getElementById('present-chord-btn');
+  btn.className = 'present-chord-toggle' + (presentShowChords?' on':'');
+  btn.textContent = presentShowChords ? 'Chords' : 'Lyrics';
+  renderPresent();
 }
 
 function renderPresent() {
   const song = presentSongs[presentIndex];
   if (!song) return;
+  const area = document.getElementById('present-song-area');
+  area.scrollTop = 0;
   document.getElementById('present-counter').textContent = `Song ${presentIndex+1} of ${presentSongs.length}`;
   document.getElementById('present-song-title').textContent = song.title;
+
+  const t = currentTranspose || 0;
   if (song.sections && song.sections.length) {
     const sec = song.sections[presentSectionIndex % song.sections.length];
-    const lyrics = sec.lines.map(l=>l.words.join(' ')).join('\n');
-    document.getElementById('present-lyrics').innerHTML = `<div style="font-size:11px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;">${sec.type}</div>` + lyrics.split('\n').map(l=>`<div>${l}</div>`).join('');
+    // Section dots
+    document.getElementById('present-section-dots').innerHTML = song.sections.map((_,i) =>
+      `<div style="width:${i===presentSectionIndex%song.sections.length?'20px':'8px'};height:8px;border-radius:4px;background:${i===presentSectionIndex%song.sections.length?'var(--gold)':'#ffffff33'};transition:all 0.2s;cursor:pointer;" onclick="jumpToSection(${i})"></div>`
+    ).join('');
+
+    let html = `<div style="font-size:10px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-bottom:20px;font-family:'Cinzel',serif;">${sec.type}</div>`;
+    if (presentShowChords) {
+      html += sec.lines.map(line =>
+        `<div style="display:flex;justify-content:center;flex-wrap:wrap;gap:2px;margin-bottom:12px;">
+          ${line.chords.map((c,i) => `
+            <div style="display:inline-flex;flex-direction:column;align-items:flex-start;min-width:40px;">
+              <div style="font-size:clamp(11px,1.6vw,16px);font-weight:700;color:var(--gold);font-family:'Cinzel',serif;min-height:20px;">${c?transposeChord(c,t):'\u00a0'}</div>
+              <div style="font-size:clamp(18px,2.8vw,30px);color:white;line-height:1.5;">${line.words[i]||'\u00a0'}</div>
+            </div>`).join('')}
+        </div>`
+      ).join('');
+    } else {
+      html += sec.lines.map(l =>
+        `<div style="font-size:clamp(20px,3vw,34px);color:white;line-height:1.9;font-weight:300;">${l.words.join(' ')}</div>`
+      ).join('');
+    }
+    document.getElementById('present-lyrics').innerHTML = html;
   }
+  document.querySelectorAll('.present-song-item').forEach((el,i) => el.classList.toggle('active', i===presentIndex));
+}
+
+function jumpToSection(idx) {
+  presentSectionIndex = idx;
+  renderPresent();
 }
 
 function presentNav(dir) {
   const song = presentSongs[presentIndex];
+  stopAutoScroll();
   if (dir > 0) {
-    if (song && presentSectionIndex < song.sections.length - 1) {
-      presentSectionIndex++;
-    } else {
-      presentIndex = Math.min(presentIndex+1, presentSongs.length-1);
-      presentSectionIndex = 0;
-    }
+    if (song && presentSectionIndex < song.sections.length - 1) { presentSectionIndex++; }
+    else { presentIndex = Math.min(presentIndex+1, presentSongs.length-1); presentSectionIndex = 0; }
   } else {
-    if (presentSectionIndex > 0) {
-      presentSectionIndex--;
-    } else {
-      presentIndex = Math.max(presentIndex-1, 0);
-      const s = presentSongs[presentIndex];
-      presentSectionIndex = s ? s.sections.length-1 : 0;
-    }
+    if (presentSectionIndex > 0) { presentSectionIndex--; }
+    else { presentIndex = Math.max(presentIndex-1, 0); const s=presentSongs[presentIndex]; presentSectionIndex=s?s.sections.length-1:0; }
   }
+  renderPresentSidebar();
   renderPresent();
 }
 
+function toggleAutoScroll() {
+  autoScrollActive = !autoScrollActive;
+  const btn = document.getElementById('autoscroll-btn');
+  if (autoScrollActive) {
+    btn.style.color = 'var(--gold)';
+    btn.textContent = '⏸ Auto';
+    startAutoScroll();
+  } else {
+    btn.style.color = 'var(--muted)';
+    btn.textContent = '⏵ Auto';
+    stopAutoScroll();
+  }
+}
+
+function startAutoScroll() {
+  clearInterval(autoScrollInterval);
+  const area = document.getElementById('present-song-area');
+  const pixelsPerTick = scrollSpeedValue * 0.5;
+  autoScrollInterval = setInterval(() => {
+    if (!autoScrollActive) return;
+    const maxScroll = area.scrollHeight - area.clientHeight;
+    if (area.scrollTop >= maxScroll - 2) {
+      // Auto advance to next section
+      presentNav(1);
+    } else {
+      area.scrollTop += pixelsPerTick;
+    }
+  }, 50);
+}
+
+function stopAutoScroll() {
+  clearInterval(autoScrollInterval);
+  autoScrollActive = false;
+  const btn = document.getElementById('autoscroll-btn');
+  if (btn) { btn.style.color='var(--muted)'; btn.textContent='⏵ Auto'; }
+}
+
+function updateScrollSpeed() {
+  scrollSpeedValue = parseInt(document.getElementById('scroll-speed').value);
+  if (autoScrollActive) { stopAutoScroll(); autoScrollActive=true; startAutoScroll(); const btn=document.getElementById('autoscroll-btn'); btn.style.color='var(--gold)'; btn.textContent='⏸ Auto'; }
+}
+
 function closePresent() {
+  stopAutoScroll();
   document.getElementById('present-view').classList.remove('open');
 }
 
@@ -1256,6 +1433,25 @@ function updateTimerDisplay() {
   else display.classList.add('running');
   document.getElementById('timer-progress-text').textContent = `${Math.min(Math.round(pct),100)}% elapsed`;
 }
+
+// ============================================================
+// DESKTOP SIDEBAR INIT
+// ============================================================
+function setDSActive(btn) {
+  document.querySelectorAll('.ds-nav-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function initDesktopSidebar() {
+  if (window.innerWidth >= 1024) {
+    document.getElementById('desktop-sidebar').style.display = 'flex';
+  }
+}
+window.addEventListener('resize', () => {
+  const ds = document.getElementById('desktop-sidebar');
+  ds.style.display = window.innerWidth >= 1024 ? 'flex' : 'none';
+});
+initDesktopSidebar();
 
 // ============================================================
 // INIT
