@@ -27,70 +27,72 @@
 html, body { height: 100%; overflow: hidden; background: #0a0a18; font-family: 'Lato', sans-serif; color: var(--white); }
 
 /* APP SHELL */
-#app { display: flex; flex-direction: column; height: 100vh; max-width: 480px; margin: 0 auto; position: relative; overflow: hidden; background: var(--navy); }
+#app { display: flex; flex-direction: column; height: 100vh; width: 100%; max-width: 480px; margin: 0 auto; position: relative; overflow: hidden; background: var(--navy); }
 
 /* TABLET */
 @media (min-width: 600px) and (max-width: 1023px) {
   body { display: flex; align-items: stretch; justify-content: center; background: #0a0a18; }
   #app { max-width: 640px; width: 100%; box-shadow: 0 0 60px #00000088; }
   .lyric-text { font-size: 18px; }
-  .present-lyrics { font-size: clamp(22px, 4vw, 36px); }
 }
 
 /* DESKTOP: true sidebar layout */
 @media (min-width: 1024px) {
-  html, body { overflow: hidden; height: 100%; }
-  body { background: #070712; display: flex; }
-  #app { flex-direction: row; max-width: 100%; width: 100%; height: 100vh; overflow: hidden; }
-
-  /* Hide default header and nav — replaced by #desktop-sidebar */
-  .hdr { display: none; }
-  .nav { display: none; }
+  html, body { overflow: hidden; height: 100%; background: var(--navy); }
+  #app {
+    flex-direction: row;
+    max-width: 100%;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    margin: 0;
+  }
+  .hdr { display: none !important; width: 0 !important; overflow: hidden !important; }
+  .nav { display: none !important; width: 0 !important; overflow: hidden !important; }
 
   #desktop-sidebar {
     display: flex !important;
     flex-direction: column;
-    width: 220px; min-width: 220px;
-    height: 100vh; flex-shrink: 0;
+    width: 220px;
+    min-width: 220px;
+    max-width: 220px;
+    height: 100vh;
+    flex-shrink: 0;
     background: var(--navy2);
     border-right: 1px solid #c9a84c22;
     overflow: hidden;
   }
-  #desktop-sidebar .ds-brand {
-    padding: 28px 20px 16px;
-    border-bottom: 1px solid #c9a84c11;
-  }
+  #desktop-sidebar .ds-brand { padding: 28px 20px 16px; border-bottom: 1px solid #c9a84c11; }
   #desktop-sidebar .ds-sub { font-size: 8px; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; font-family: 'Cinzel', serif; }
   #desktop-sidebar .ds-title { font-size: 20px; font-weight: 700; color: var(--white); font-family: 'Cinzel', serif; letter-spacing: 1px; margin-top: 4px; line-height: 1.1; }
   #desktop-sidebar .ds-tagline { font-size: 9px; color: var(--muted); margin-top: 6px; line-height: 1.5; }
   #desktop-sidebar .ds-nav { flex: 1; overflow-y: auto; padding: 8px 0; }
-  #desktop-sidebar .ds-nav-btn {
-    display: block; width: 100%;
-    text-align: left; padding: 13px 20px;
-    font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
-    color: var(--muted); background: none; border: none;
-    border-left: 3px solid transparent;
-    cursor: pointer; font-family: 'Lato', sans-serif;
-    transition: all 0.2s;
-  }
+  #desktop-sidebar .ds-nav-btn { display: block; width: 100%; text-align: left; padding: 13px 20px; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); background: none; border: none; border-left: 3px solid transparent; cursor: pointer; font-family: 'Lato', sans-serif; transition: all 0.2s; }
   #desktop-sidebar .ds-nav-btn:hover { color: var(--white); background: #ffffff06; }
   #desktop-sidebar .ds-nav-btn.active { color: var(--gold); border-left-color: var(--gold); background: #c9a84c0d; }
 
   #main-content {
-    flex: 1; height: 100vh; overflow-y: auto;
+    flex: 1;
+    min-width: 0;
+    width: 0;
+    height: 100vh;
+    overflow-y: auto;
     background: var(--navy);
+    display: flex;
+    flex-direction: column;
   }
-  .page { padding: 32px 48px; max-width: 860px; }
+  #main-content .page { flex: none; }
+  .page { padding: 32px 48px; max-width: 100%; width: 100%; }
   .home-grid { grid-template-columns: repeat(3, 1fr); }
   .recent-sermons { grid-template-columns: repeat(4, 1fr); }
   .latest-thumb { height: 220px; }
   .song-card, .book-card, .sermon-card, .my-song-card { padding: 14px 18px; }
   .song-title, .book-title, .sermon-title { font-size: 15px; }
   .lyric-text { font-size: 18px; }
-  .setlist-header { max-width: 720px; }
-  .detail-view { position: fixed; inset: 0; }
-  .pulpit-view { position: fixed; inset: 0; }
-  .present-view { position: fixed; inset: 0; }
+  .setlist-header { max-width: 100%; }
+  .detail-view { position: fixed; inset: 0; z-index: 50; }
+  .pulpit-view { position: fixed; inset: 0; z-index: 50; }
+  .present-view { position: fixed; inset: 0; z-index: 50; }
 }
 
 /* HEADER */
@@ -343,14 +345,15 @@ html, body { height: 100%; overflow: hidden; background: #0a0a18; font-family: '
     </div>
   </div>
 
-  <!-- HEADER -->
+  <div id="main-content">
+  <!-- HEADER (mobile only) -->
   <div class="hdr">
     <div class="hdr-sub">Strings of Worship</div>
     <div class="hdr-title">SOWCollective</div>
     <div class="hdr-tagline">Songs · My Songs · Books · Sermons</div>
   </div>
 
-  <!-- NAV -->
+  <!-- NAV (mobile only) -->
   <div class="nav">
     <button class="nav-btn active" onclick="showPage('home')">Home</button>
     <button class="nav-btn" onclick="showPage('songs')">Songs</button>
@@ -359,7 +362,6 @@ html, body { height: 100%; overflow: hidden; background: #0a0a18; font-family: '
     <button class="nav-btn" onclick="showPage('sermons')">Sermons</button>
   </div>
 
-  <div id="main-content">
   <!-- ===== HOME PAGE ===== -->
   <div class="page active" id="page-home">
     <div class="sec-label">Latest Release</div>
