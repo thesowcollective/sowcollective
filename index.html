@@ -1330,6 +1330,178 @@ select option { background: var(--navy-mid); }
 .modal-box label { font-size: 12px; color: var(--white-dim); display: block; margin-bottom: 6px; }
 .modal-box input { margin-bottom: 14px; }
 .modal-footer { display: flex; gap: 10px; justify-content: flex-end; margin-top: 4px; }
+/* ══════════════════════════════════════════
+   ADMIN PAGE
+══════════════════════════════════════════ */
+.admin-tabs {
+  display: flex; gap: 6px; flex-wrap: wrap;
+  margin-bottom: 22px;
+  border-bottom: 1px solid rgba(201,168,76,0.15);
+  padding-bottom: 14px;
+}
+.admin-tab {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--white-dim);
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 12px;
+  font-family: 'Lato', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.admin-tab:hover { color: var(--white); border-color: rgba(255,255,255,0.25); }
+.admin-tab.active {
+  background: rgba(201,168,76,0.15);
+  color: var(--gold);
+  border-color: rgba(201,168,76,0.4);
+  font-weight: 700;
+}
+
+.admin-card {
+  background: var(--navy-card);
+  border: 1px solid rgba(201,168,76,0.12);
+  border-radius: var(--radius);
+  padding: 20px 22px;
+}
+.admin-card-title {
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  color: var(--gold);
+  margin-bottom: 16px;
+  letter-spacing: 0.5px;
+}
+
+.admin-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+@media (max-width: 600px) { .admin-form-grid { grid-template-columns: 1fr; } }
+
+.admin-field { display: flex; flex-direction: column; gap: 5px; }
+.admin-field label {
+  font-size: 11px;
+  color: var(--white-dim);
+  letter-spacing: 0.3px;
+}
+.admin-field textarea {
+  background: var(--navy-light);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 6px;
+  padding: 10px 12px;
+  color: var(--white);
+  font-family: 'Lato', sans-serif;
+  font-size: 13px;
+  outline: none;
+  resize: vertical;
+  transition: border-color 0.2s;
+  width: 100%;
+}
+.admin-field textarea:focus { border-color: var(--gold); }
+.admin-field code {
+  background: rgba(201,168,76,0.1);
+  border-radius: 3px;
+  padding: 1px 5px;
+  font-size: 11px;
+  color: var(--gold);
+}
+
+.admin-checkgroup {
+  display: flex; flex-wrap: wrap; gap: 10px;
+  margin-top: 4px;
+}
+.admin-checkgroup label {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12px; color: var(--white-dim);
+  cursor: pointer;
+}
+.admin-checkgroup input[type="checkbox"],
+.admin-checkgroup input[type="radio"] {
+  width: 14px; height: 14px;
+  accent-color: var(--gold);
+  cursor: pointer;
+}
+
+.admin-form-actions { margin-top: 18px; display: flex; gap: 10px; flex-wrap: wrap; }
+
+.admin-feedback {
+  margin-top: 10px;
+  font-size: 12px;
+  border-radius: 6px;
+  padding: 0;
+  transition: all 0.3s;
+}
+.admin-feedback.success { color: #80e890; background: rgba(80,180,100,0.1); border: 1px solid rgba(80,180,100,0.2); padding: 8px 12px; }
+.admin-feedback.error { color: #ff8888; background: rgba(200,80,80,0.1); border: 1px solid rgba(200,80,80,0.2); padding: 8px 12px; }
+
+/* Song picker rows in Admin */
+.adm-pick-row {
+  background: var(--navy-light);
+  border: 1px solid rgba(201,168,76,0.08);
+  border-radius: 6px;
+  padding: 9px 12px;
+  display: flex; align-items: center; gap: 10px;
+  font-size: 12px;
+}
+.adm-pick-row .pick-title { flex: 1; color: var(--white); }
+.adm-pick-row .pick-artist { color: var(--white-dim); font-size: 11px; }
+.adm-pick-btn {
+  background: rgba(201,168,76,0.1);
+  color: var(--gold);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 5px;
+  padding: 4px 10px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+.adm-pick-btn:hover { background: rgba(201,168,76,0.25); }
+.adm-pick-btn.has-chart { color: #80e890; border-color: rgba(80,180,100,0.3); background: rgba(80,180,100,0.08); }
+
+/* Manage list rows */
+.adm-manage-row {
+  background: var(--navy-light);
+  border: 1px solid rgba(201,168,76,0.08);
+  border-radius: 7px;
+  padding: 11px 14px;
+  display: flex; align-items: center; gap: 10px;
+}
+.adm-manage-row .mr-info { flex: 1; min-width: 0; }
+.adm-manage-row .mr-info h4 { font-size: 13px; color: var(--white); font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.adm-manage-row .mr-info p { font-size: 11px; color: var(--white-dim); margin-top: 2px; }
+.adm-del-btn {
+  background: rgba(200,80,80,0.12);
+  color: #ff8888;
+  border: 1px solid rgba(200,80,80,0.2);
+  border-radius: 5px;
+  padding: 4px 10px;
+  font-size: 11px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+.adm-del-btn:hover { background: rgba(200,80,80,0.25); }
+
+/* PDF viewer overlay */
+#pdf-viewer-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.85);
+  z-index: 4000;
+  display: none;
+  flex-direction: column;
+}
+#pdf-viewer-overlay.open { display: flex; }
+#pdf-viewer-bar {
+  background: var(--navy-mid);
+  border-bottom: 1px solid rgba(201,168,76,0.2);
+  padding: 12px 20px;
+  display: flex; align-items: center; gap: 14px;
+}
+#pdf-viewer-bar h3 { font-family: 'Cinzel', serif; font-size: 14px; color: var(--white); flex: 1; }
+#pdf-viewer-frame { flex: 1; border: none; width: 100%; }
+
 </style>
 </head>
 <body>
@@ -1361,6 +1533,9 @@ select option { background: var(--navy-mid); }
       </div>
       <div class="nav-item" data-tab="sermons">
         <span class="nav-icon">🎙️</span> Sermons
+      </div>
+      <div class="nav-item" data-tab="admin" style="margin-top:auto;border-top:1px solid rgba(201,168,76,0.1);padding-top:14px;">
+        <span class="nav-icon">⚙️</span> Admin
       </div>
     </nav>
     <div id="sidebar-footer">SOW · Est. 2024</div>
@@ -1555,13 +1730,9 @@ select option { background: var(--navy-mid); }
         <div class="page-inner">
           <div class="home-hero-title" style="font-size:20px;margin-bottom:4px">Sermons</div>
           <div class="home-hero-subtitle" style="margin-bottom:16px">SOW Pulpit</div>
-
-          <!-- Drive link -->
           <a class="google-drive-link" href="https://drive.google.com/drive/folders/SOW-Sermons" target="_blank">
             <span>📁</span> Open SOW-Sermons on Google Drive
           </a>
-
-          <!-- Filters -->
           <div class="sermon-filters" id="sermon-filters">
             <button class="filter-chip active" data-theme="All" onclick="filterSermons(this)">All</button>
             <button class="filter-chip" data-theme="Faith" onclick="filterSermons(this)">Faith</button>
@@ -1570,12 +1741,315 @@ select option { background: var(--navy-mid); }
             <button class="filter-chip" data-theme="Worship" onclick="filterSermons(this)">Worship</button>
             <button class="filter-chip" data-theme="Identity" onclick="filterSermons(this)">Identity</button>
           </div>
-
           <div class="sermon-grid" id="sermons-container"></div>
         </div>
       </div>
 
-    </div><!-- /pages -->
+      <!-- ══ ADMIN PAGE ══ -->
+      <div class="page" id="admin-page">
+        <div class="page-inner">
+          <div class="home-hero-title" style="font-size:20px;margin-bottom:4px">⚙️ Admin Panel</div>
+          <div class="home-hero-subtitle" style="margin-bottom:24px">Manage Your Content</div>
+
+          <!-- Admin tabs -->
+          <div class="admin-tabs">
+            <button class="admin-tab active" data-atab="songs" onclick="switchAdminTab('songs',this)">🎸 Songs</button>
+            <button class="admin-tab" data-atab="mysongs" onclick="switchAdminTab('mysongs',this)">✍️ My Songs</button>
+            <button class="admin-tab" data-atab="sermons" onclick="switchAdminTab('sermons',this)">🎙️ Sermons</button>
+            <button class="admin-tab" data-atab="books" onclick="switchAdminTab('books',this)">📚 Books</button>
+            <button class="admin-tab" data-atab="settings" onclick="switchAdminTab('settings',this)">🔑 Settings</button>
+          </div>
+
+          <!-- ── SONGS ADMIN ── -->
+          <div class="admin-section" id="admin-songs">
+            <div class="admin-card">
+              <div class="admin-card-title">➕ Add New Song to Library</div>
+              <div class="admin-form-grid">
+                <div class="admin-field">
+                  <label>Song Title *</label>
+                  <input type="text" id="adm-song-title" placeholder="e.g. Great Is Thy Faithfulness">
+                </div>
+                <div class="admin-field">
+                  <label>Artist / Author *</label>
+                  <input type="text" id="adm-song-artist" placeholder="e.g. Thomas Chisholm">
+                </div>
+                <div class="admin-field">
+                  <label>Key *</label>
+                  <select id="adm-song-key">
+                    <option>C</option><option>C#</option><option>D</option><option>D#</option>
+                    <option>E</option><option>F</option><option>F#</option><option>G</option>
+                    <option>G#</option><option>A</option><option>A#</option><option>B</option>
+                  </select>
+                </div>
+                <div class="admin-field">
+                  <label>Tempo</label>
+                  <input type="text" id="adm-song-tempo" placeholder="e.g. 72 BPM">
+                </div>
+                <div class="admin-field" style="grid-column:1/-1">
+                  <label>Categories (tick all that apply)</label>
+                  <div class="admin-checkgroup" id="adm-song-cats">
+                    <label><input type="checkbox" value="Worship"> Worship</label>
+                    <label><input type="checkbox" value="Praise"> Praise</label>
+                    <label><input type="checkbox" value="Hymns"> Hymns</label>
+                    <label><input type="checkbox" value="Marriage"> Marriage</label>
+                    <label><input type="checkbox" value="Funeral"> Funeral</label>
+                    <label><input type="checkbox" value="Easter"> Easter</label>
+                    <label><input type="checkbox" value="Good Friday"> Good Friday</label>
+                    <label><input type="checkbox" value="Christmas"> Christmas</label>
+                  </div>
+                </div>
+                <div class="admin-field" style="grid-column:1/-1">
+                  <label>Chord Chart (optional) — Paste lyrics with chords above each word, one line per row. Format: <code>[Chord] word [Chord] word</code></label>
+                  <textarea id="adm-song-chords" rows="8" placeholder="[G] Great is [D] Thy faith-[Em]fulness&#10;[C] O God my [G] Fa-[D]ther&#10;---CHORUS---&#10;[G] Great is Thy [C] faithful-[G]ness"></textarea>
+                  <div style="font-size:11px;color:var(--white-dim);margin-top:6px">Tip: Use <code>---SECTION NAME---</code> lines to mark Verse 1, Chorus, Bridge etc.</div>
+                </div>
+                <div class="admin-field" style="grid-column:1/-1">
+                  <label>Add to Setlist</label>
+                  <div class="admin-checkgroup">
+                    <label><input type="radio" name="adm-song-setlist" value="0" checked> Library only</label>
+                    <label><input type="radio" name="adm-song-setlist" value="1"> Setlist 1</label>
+                    <label><input type="radio" name="adm-song-setlist" value="2"> Setlist 2</label>
+                  </div>
+                </div>
+              </div>
+              <div class="admin-form-actions">
+                <button class="gold-btn" onclick="adminAddSong()">➕ Add Song</button>
+              </div>
+              <div class="admin-feedback" id="adm-song-feedback"></div>
+            </div>
+
+            <div class="admin-card" style="margin-top:18px">
+              <div class="admin-card-title">📋 Manage Existing Songs — Chord Charts</div>
+              <p style="font-size:12px;color:var(--white-dim);margin-bottom:12px">Select any song from the library to add or edit its chord chart.</p>
+              <div style="display:flex;gap:8px;margin-bottom:12px;">
+                <input type="text" id="adm-song-search" placeholder="Search song to edit…" oninput="adminFilterSongPicker()" style="flex:1">
+              </div>
+              <div id="adm-song-picker" style="max-height:260px;overflow-y:auto;display:flex;flex-direction:column;gap:6px;"></div>
+            </div>
+          </div>
+
+          <!-- ── MY SONGS ADMIN ── -->
+          <div class="admin-section" id="admin-mysongs" style="display:none">
+            <div class="admin-card">
+              <div class="admin-card-title">➕ Add My Original Composition</div>
+              <div class="admin-form-grid">
+                <div class="admin-field">
+                  <label>Song Title *</label>
+                  <input type="text" id="adm-ms-title" placeholder="e.g. All of Heaven">
+                </div>
+                <div class="admin-field">
+                  <label>Key</label>
+                  <select id="adm-ms-key">
+                    <option>C</option><option>C#</option><option>D</option><option>D#</option>
+                    <option>E</option><option>F</option><option>F#</option><option>G</option>
+                    <option>G#</option><option>A</option><option>A#</option><option>B</option>
+                  </select>
+                </div>
+                <div class="admin-field" style="grid-column:1/-1">
+                  <label>Description</label>
+                  <input type="text" id="adm-ms-desc" placeholder="e.g. A worship anthem based on Psalm 22">
+                </div>
+                <div class="admin-field" style="grid-column:1/-1">
+                  <label>YouTube URL or Video ID</label>
+                  <input type="text" id="adm-ms-yt" placeholder="https://youtube.com/watch?v=... or just the video ID">
+                </div>
+                <div class="admin-field" style="grid-column:1/-1">
+                  <label>Media Badges (tick all that apply)</label>
+                  <div class="admin-checkgroup">
+                    <label><input type="checkbox" id="adm-ms-tag-lyrics" value="Lyrics" checked> Lyrics</label>
+                    <label><input type="checkbox" id="adm-ms-tag-audio" value="Audio"> Audio</label>
+                    <label><input type="checkbox" id="adm-ms-tag-video" value="Video"> Video</label>
+                    <label><input type="checkbox" id="adm-ms-tag-soon" value="Recording Soon"> Recording Soon</label>
+                  </div>
+                </div>
+                <div class="admin-field" style="grid-column:1/-1">
+                  <label>Chord Chart (same format as Songs)</label>
+                  <textarea id="adm-ms-chords" rows="8" placeholder="[G] Great is [D] Thy faith&#10;---CHORUS---&#10;[G] We lift our [C] voice"></textarea>
+                </div>
+              </div>
+              <div class="admin-form-actions">
+                <button class="gold-btn" onclick="adminAddMySong()">➕ Add Composition</button>
+              </div>
+              <div class="admin-feedback" id="adm-ms-feedback"></div>
+            </div>
+
+            <div class="admin-card" style="margin-top:18px">
+              <div class="admin-card-title">✏️ Edit Existing Compositions</div>
+              <div id="adm-mysongs-list" style="display:flex;flex-direction:column;gap:8px;margin-top:10px;"></div>
+            </div>
+          </div>
+
+          <!-- ── SERMONS ADMIN ── -->
+          <div class="admin-section" id="admin-sermons" style="display:none">
+            <div class="admin-card">
+              <div class="admin-card-title">➕ Add New Sermon</div>
+              <div class="admin-form-grid">
+                <div class="admin-field">
+                  <label>Sermon Title *</label>
+                  <input type="text" id="adm-ser-title" placeholder="e.g. The God Who Sees">
+                </div>
+                <div class="admin-field">
+                  <label>Bible Passage *</label>
+                  <input type="text" id="adm-ser-passage" placeholder="e.g. Genesis 16:1–16">
+                </div>
+                <div class="admin-field">
+                  <label>Preacher</label>
+                  <input type="text" id="adm-ser-preacher" placeholder="e.g. Pastor Samuel">
+                </div>
+                <div class="admin-field">
+                  <label>Date</label>
+                  <input type="date" id="adm-ser-date">
+                </div>
+                <div class="admin-field">
+                  <label>Theme</label>
+                  <select id="adm-ser-theme">
+                    <option>Faith</option><option>Grace</option><option>Prayer</option>
+                    <option>Worship</option><option>Identity</option><option>Salvation</option>
+                    <option>Holy Spirit</option><option>Marriage</option><option>Discipleship</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+                <div class="admin-field">
+                  <label>Icon (emoji)</label>
+                  <input type="text" id="adm-ser-icon" placeholder="🎵" style="max-width:80px">
+                </div>
+                <div class="admin-field" style="grid-column:1/-1">
+                  <label>Google Drive PDF Link (direct share link)</label>
+                  <input type="text" id="adm-ser-pdf" placeholder="https://drive.google.com/file/d/FILE_ID/view">
+                  <div style="font-size:11px;color:var(--white-dim);margin-top:4px">In Drive: right-click PDF → Share → Copy Link. Paste here.</div>
+                </div>
+                <div class="admin-field" style="grid-column:1/-1">
+                  <label>Sermon Outline (one point per line) *</label>
+                  <textarea id="adm-ser-outline" rows="6" placeholder="God sees Hagar in her affliction — He sees us in ours&#10;El Roi: the One who meets us in the wilderness&#10;We are not invisible to God; He calls us by name&#10;Our response: return, submit, and trust His plan"></textarea>
+                </div>
+                <div class="admin-field" style="grid-column:1/-1">
+                  <label>Full Sermon Notes (optional — shown in Pulpit view)</label>
+                  <textarea id="adm-ser-notes" rows="10" placeholder="Type your full sermon notes here. These will be available in Pulpit mode for reference during preaching."></textarea>
+                </div>
+              </div>
+              <div class="admin-form-actions">
+                <button class="gold-btn" onclick="adminAddSermon()">➕ Add Sermon</button>
+              </div>
+              <div class="admin-feedback" id="adm-ser-feedback"></div>
+            </div>
+
+            <div class="admin-card" style="margin-top:18px">
+              <div class="admin-card-title">✏️ Manage Sermons</div>
+              <div id="adm-sermons-list" style="display:flex;flex-direction:column;gap:8px;margin-top:10px;"></div>
+            </div>
+          </div>
+
+          <!-- ── BOOKS ADMIN ── -->
+          <div class="admin-section" id="admin-books" style="display:none">
+            <div class="admin-card">
+              <div class="admin-card-title">➕ Add Book / Commentary</div>
+              <div class="admin-form-grid">
+                <div class="admin-field">
+                  <label>Book Title *</label>
+                  <input type="text" id="adm-bk-title" placeholder="e.g. Knowing God">
+                </div>
+                <div class="admin-field">
+                  <label>Author *</label>
+                  <input type="text" id="adm-bk-author" placeholder="e.g. J.I. Packer">
+                </div>
+                <div class="admin-field">
+                  <label>Category Tag</label>
+                  <select id="adm-bk-tag">
+                    <option>Theology</option><option>Apologetics</option><option>Spiritual Formation</option>
+                    <option>Prayer</option><option>Relationships</option><option>Commentary</option>
+                    <option>Devotional</option><option>Leadership</option><option>Evangelism</option><option>Other</option>
+                  </select>
+                </div>
+                <div class="admin-field">
+                  <label>Spine Colour</label>
+                  <input type="color" id="adm-bk-color" value="#4a6fa5" style="width:60px;height:36px;padding:2px;border-radius:6px;cursor:pointer;background:transparent;border:1px solid rgba(201,168,76,0.3)">
+                </div>
+                <div class="admin-field" style="grid-column:1/-1">
+                  <label>Google Drive PDF Link</label>
+                  <input type="text" id="adm-bk-pdf" placeholder="https://drive.google.com/file/d/FILE_ID/view">
+                  <div style="font-size:11px;color:var(--white-dim);margin-top:4px">Right-click PDF in Drive → Share → Copy link → Paste here. The PDF will open in a viewer inside the app.</div>
+                </div>
+                <div class="admin-field" style="grid-column:1/-1">
+                  <label>My Notes on This Book</label>
+                  <textarea id="adm-bk-notes" rows="5" placeholder="Write your personal notes, highlights, or summary of this book. These notes will be searchable by the AI theology assistant."></textarea>
+                </div>
+                <div class="admin-field" style="grid-column:1/-1">
+                  <label><input type="checkbox" id="adm-bk-recent"> Mark as Recently Read</label>
+                </div>
+              </div>
+              <div class="admin-form-actions">
+                <button class="gold-btn" onclick="adminAddBook()">➕ Add Book</button>
+              </div>
+              <div class="admin-feedback" id="adm-bk-feedback"></div>
+            </div>
+
+            <div class="admin-card" style="margin-top:18px">
+              <div class="admin-card-title">✏️ Manage Books</div>
+              <div id="adm-books-list" style="display:flex;flex-direction:column;gap:8px;margin-top:10px;"></div>
+            </div>
+          </div>
+
+          <!-- ── SETTINGS ADMIN ── -->
+          <div class="admin-section" id="admin-settings" style="display:none">
+            <div class="admin-card">
+              <div class="admin-card-title">🔑 Claude AI API Key</div>
+              <p style="font-size:12px;color:var(--white-dim);margin-bottom:12px;line-height:1.7">
+                The AI theology search in Books uses Claude. Get a free API key from
+                <a href="https://console.anthropic.com" target="_blank" style="color:var(--gold)">console.anthropic.com</a>.
+                Your key is stored only on this device — never sent to any server.
+              </p>
+              <div class="admin-field">
+                <label>API Key</label>
+                <div style="display:flex;gap:8px">
+                  <input type="password" id="settings-api-key" placeholder="sk-ant-api03-..." style="flex:1;font-family:monospace">
+                  <button class="gold-btn" onclick="adminSaveApiKey()">Save</button>
+                </div>
+              </div>
+              <div class="admin-feedback" id="adm-key-feedback" style="margin-top:8px"></div>
+            </div>
+
+            <div class="admin-card" style="margin-top:16px">
+              <div class="admin-card-title">📺 Latest Release (Home Page)</div>
+              <div class="admin-form-grid">
+                <div class="admin-field">
+                  <label>YouTube URL or Video ID</label>
+                  <input type="text" id="settings-yt-url" placeholder="https://youtube.com/watch?v=...">
+                </div>
+                <div class="admin-field">
+                  <label>Video Title</label>
+                  <input type="text" id="settings-yt-title" placeholder="Song or video title">
+                </div>
+                <div class="admin-field">
+                  <label>Subtitle</label>
+                  <input type="text" id="settings-yt-sub" placeholder="e.g. Official Music Video">
+                </div>
+              </div>
+              <div class="admin-form-actions">
+                <button class="gold-btn" onclick="adminSaveYt()">Save Latest Release</button>
+              </div>
+            </div>
+
+            <div class="admin-card" style="margin-top:16px">
+              <div class="admin-card-title">🗄️ Data Management</div>
+              <p style="font-size:12px;color:var(--white-dim);margin-bottom:14px;line-height:1.7">
+                All your added songs, sermons, books and compositions are saved in your browser's localStorage.
+                Export a backup or clear all custom data below.
+              </p>
+              <div style="display:flex;gap:10px;flex-wrap:wrap">
+                <button class="gold-btn" onclick="adminExportData()">📥 Export Backup (JSON)</button>
+                <button class="ghost-btn" onclick="adminImportData()">📤 Import Backup</button>
+                <input type="file" id="import-file" accept=".json" style="display:none" onchange="adminDoImport(this)">
+              </div>
+              <div style="margin-top:14px">
+                <button onclick="adminClearData()" style="background:rgba(200,80,80,0.15);color:#ff8888;border:1px solid rgba(200,80,80,0.3);border-radius:6px;padding:8px 16px;font-size:12px;cursor:pointer;">
+                  ⚠️ Clear All Custom Data
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /page-inner -->
+      </div><!-- /admin-page -->
 
     <!-- Mobile bottom nav -->
     <nav id="bottom-nav">
@@ -1585,6 +2059,7 @@ select option { background: var(--navy-mid); }
         <div class="bnav-item" data-tab="mysongs"><span class="bnav-icon">✍️</span>My Songs</div>
         <div class="bnav-item" data-tab="books"><span class="bnav-icon">📚</span>Books</div>
         <div class="bnav-item" data-tab="sermons"><span class="bnav-icon">🎙️</span>Sermons</div>
+        <div class="bnav-item" data-tab="admin"><span class="bnav-icon">⚙️</span>Admin</div>
       </div>
     </nav>
 
@@ -1662,6 +2137,16 @@ select option { background: var(--navy-mid); }
       <button class="gold-btn" onclick="saveYtLink()">Save</button>
     </div>
   </div>
+</div>
+
+<!-- ══ PDF VIEWER ══ -->
+<div id="pdf-viewer-overlay">
+  <div id="pdf-viewer-bar">
+    <h3 id="pdf-viewer-title">Document</h3>
+    <a id="pdf-viewer-open" href="#" target="_blank" class="ghost-btn">Open in Drive ↗</a>
+    <button class="present-close-btn" onclick="closePdfViewer()">✕ Close</button>
+  </div>
+  <iframe id="pdf-viewer-frame" allowfullscreen></iframe>
 </div>
 
 <!-- ══ PWA MANIFEST (inline) ══ -->
@@ -3056,10 +3541,511 @@ function updateTimerDisplay() {
 }
 
 /* ══════════════════════════════════════════
+   ADMIN — DATA PERSISTENCE
+   All custom data stored in localStorage under sow_custom_*
+══════════════════════════════════════════ */
+
+function loadCustomData() {
+  try {
+    const cs = localStorage.getItem('sow_custom_songs');
+    if (cs) JSON.parse(cs).forEach(s => { if (!SONG_LIBRARY.find(x=>x.id===s.id)) SONG_LIBRARY.push(s); else Object.assign(SONG_LIBRARY.find(x=>x.id===s.id), s); });
+  } catch(e) {}
+  try {
+    const cms = localStorage.getItem('sow_custom_mysongs');
+    if (cms) { const arr = JSON.parse(cms); arr.forEach(s => { if (!SAMPLE_MYSONGS.find(x=>x.id===s.id)) SAMPLE_MYSONGS.push(s); else Object.assign(SAMPLE_MYSONGS.find(x=>x.id===s.id), s); }); }
+  } catch(e) {}
+  try {
+    const cser = localStorage.getItem('sow_custom_sermons');
+    if (cser) { const arr = JSON.parse(cser); arr.forEach(s => { if (!SAMPLE_SERMONS.find(x=>x.id===s.id)) SAMPLE_SERMONS.push(s); else Object.assign(SAMPLE_SERMONS.find(x=>x.id===s.id), s); }); }
+  } catch(e) {}
+  try {
+    const cbk = localStorage.getItem('sow_custom_books');
+    if (cbk) { const arr = JSON.parse(cbk); arr.forEach(b => { if (!SAMPLE_BOOKS.find(x=>x.id===b.id)) SAMPLE_BOOKS.push(b); else Object.assign(SAMPLE_BOOKS.find(x=>x.id===b.id), b); }); }
+  } catch(e) {}
+}
+
+function saveCustomSongs()   { localStorage.setItem('sow_custom_songs', JSON.stringify(SONG_LIBRARY.filter(s=>s._custom))); }
+function saveCustomMySongs() { localStorage.setItem('sow_custom_mysongs', JSON.stringify(SAMPLE_MYSONGS.filter(s=>s._custom))); }
+function saveCustomSermons() { localStorage.setItem('sow_custom_sermons', JSON.stringify(SAMPLE_SERMONS.filter(s=>s._custom))); }
+function saveCustomBooks()   { localStorage.setItem('sow_custom_books', JSON.stringify(SAMPLE_BOOKS.filter(b=>b._custom))); }
+
+function nextId(arr) { return arr.length ? Math.max(...arr.map(x=>x.id)) + 1 : 1000; }
+
+/* ── Admin Tab Switcher ── */
+function switchAdminTab(tab, btn) {
+  document.querySelectorAll('.admin-section').forEach(s => s.style.display = 'none');
+  document.querySelectorAll('.admin-tab').forEach(b => b.classList.remove('active'));
+  document.getElementById('admin-' + tab).style.display = 'block';
+  btn.classList.add('active');
+
+  if (tab === 'songs')    { adminRenderSongPicker(); }
+  if (tab === 'mysongs')  { adminRenderMySongsList(); }
+  if (tab === 'sermons')  { adminRenderSermonsList(); }
+  if (tab === 'books')    { adminRenderBooksList(); }
+  if (tab === 'settings') { adminLoadSettings(); }
+}
+
+/* ── Chord chart parser ──
+   Parses simple inline format:
+   [G] Great is [D] Thy faith-[Em]ful-ness
+   ---CHORUS---  => section break
+*/
+function parseChordText(raw) {
+  if (!raw || !raw.trim()) return [];
+  const sections = [];
+  let curSection = { label: 'Verse 1', lines: [] };
+  const lines = raw.split('\n');
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (!trimmed) continue;
+    // Section marker
+    if (/^---(.+)---$/.test(trimmed)) {
+      if (curSection.lines.length) sections.push(curSection);
+      curSection = { label: trimmed.replace(/^---|---$/g,'').trim(), lines: [] };
+      continue;
+    }
+    // Parse chords + words inline: [G] word [D] word
+    const tokens = trimmed.split(/(\[[^\]]+\])/);
+    const chords = [], words = [];
+    let pendingChord = '';
+    for (const tok of tokens) {
+      if (/^\[/.test(tok)) {
+        pendingChord = tok.replace(/[\[\]]/g,'');
+      } else {
+        const parts = tok.trim().split(/\s+/).filter(Boolean);
+        if (!parts.length && pendingChord) { chords.push(pendingChord); words.push(' '); pendingChord=''; }
+        parts.forEach((word, i) => {
+          chords.push(i===0 ? pendingChord : '');
+          words.push(word + ' ');
+          if (i===0) pendingChord = '';
+        });
+      }
+    }
+    if (chords.length) curSection.lines.push({ chords, words });
+  }
+  if (curSection.lines.length) sections.push(curSection);
+  return sections;
+}
+
+function adminFeedback(elId, msg, isOk) {
+  const el = document.getElementById(elId);
+  el.textContent = msg;
+  el.className = 'admin-feedback ' + (isOk ? 'success' : 'error');
+  setTimeout(() => { el.textContent = ''; el.className = 'admin-feedback'; }, 4000);
+}
+
+/* ── ADD SONG ── */
+function adminAddSong() {
+  const title  = document.getElementById('adm-song-title').value.trim();
+  const artist = document.getElementById('adm-song-artist').value.trim();
+  const key    = document.getElementById('adm-song-key').value;
+  const tempo  = document.getElementById('adm-song-tempo').value.trim() || '—';
+  const setlist= parseInt(document.querySelector('input[name="adm-song-setlist"]:checked').value);
+  const cats   = [...document.querySelectorAll('#adm-song-cats input:checked')].map(c=>c.value);
+  const raw    = document.getElementById('adm-song-chords').value;
+  if (!title || !artist) { adminFeedback('adm-song-feedback','Please fill in Title and Artist.',false); return; }
+  const sections = parseChordText(raw);
+  const song = { id: nextId(SONG_LIBRARY), title, artist, key, tempo, setlist, sections, categories: cats, _custom: true };
+  SONG_LIBRARY.push(song);
+  saveCustomSongs();
+  renderLibrary();
+  ['adm-song-title','adm-song-artist','adm-song-tempo','adm-song-chords'].forEach(id=>document.getElementById(id).value='');
+  document.querySelectorAll('#adm-song-cats input').forEach(c=>c.checked=false);
+  adminFeedback('adm-song-feedback', `✅ "${title}" added to library!`, true);
+  adminRenderSongPicker();
+}
+
+/* ── SONG PICKER (edit chord charts) ── */
+function adminRenderSongPicker(filter='') {
+  const el = document.getElementById('adm-song-picker');
+  if (!el) return;
+  const q = filter.toLowerCase();
+  const songs = SONG_LIBRARY.filter(s => !q || s.title.toLowerCase().includes(q) || s.artist.toLowerCase().includes(q));
+  el.innerHTML = songs.slice(0, 80).map(s => `
+    <div class="adm-pick-row">
+      <div>
+        <div class="pick-title">${s.title}</div>
+        <div class="pick-artist">${s.artist} · ${s.key}</div>
+      </div>
+      <button class="adm-pick-btn ${s.sections&&s.sections.length?'has-chart':''}"
+        onclick="adminOpenChordEditor(${s.id})">
+        ${s.sections&&s.sections.length ? '✏️ Edit Chart' : '➕ Add Chart'}
+      </button>
+    </div>
+  `).join('');
+}
+function adminFilterSongPicker() {
+  adminRenderSongPicker(document.getElementById('adm-song-search').value);
+}
+function adminOpenChordEditor(id) {
+  const song = SONG_LIBRARY.find(s=>s.id===id);
+  if (!song) return;
+  // Serialise existing chart back to text
+  let existing = '';
+  if (song.sections && song.sections.length) {
+    song.sections.forEach(sec => {
+      existing += `---${sec.label}---\n`;
+      sec.lines.forEach(line => {
+        let row = '';
+        line.chords.forEach((ch,i) => {
+          if (ch) row += `[${ch}] `;
+          row += (line.words[i]||'').trim() + ' ';
+        });
+        existing += row.trim() + '\n';
+      });
+    });
+  }
+  // Open a modal-style prompt
+  const newText = prompt(`Chord chart for "${song.title}"\n\nUse format: [G] word [D] word\nUse ---SECTION--- lines for sections.\n\nCurrent chart (edit below):`, existing.trim());
+  if (newText === null) return;
+  song.sections = parseChordText(newText);
+  if (!song._custom) { song._custom = true; } // mark as customised
+  saveCustomSongs();
+  adminRenderSongPicker(document.getElementById('adm-song-search')?.value || '');
+  adminFeedback('adm-song-feedback', `✅ Chord chart saved for "${song.title}"`, true);
+}
+
+/* ── ADD MY SONG ── */
+function adminAddMySong() {
+  const title = document.getElementById('adm-ms-title').value.trim();
+  const key   = document.getElementById('adm-ms-key').value;
+  const desc  = document.getElementById('adm-ms-desc').value.trim();
+  const ytRaw = document.getElementById('adm-ms-yt').value.trim();
+  const raw   = document.getElementById('adm-ms-chords').value;
+  if (!title) { adminFeedback('adm-ms-feedback','Please enter a song title.',false); return; }
+  const tags = ['adm-ms-tag-lyrics','adm-ms-tag-audio','adm-ms-tag-video','adm-ms-tag-soon']
+    .filter(id=>document.getElementById(id).checked)
+    .map(id=>document.getElementById(id).value);
+  let ytId = ytRaw;
+  const m = ytRaw.match(/(?:v=|youtu\.be\/)([A-Za-z0-9_-]{11})/);
+  if (m) ytId = m[1];
+  const song = { id: nextId(SAMPLE_MYSONGS), title, key, description: desc || title, tags, youtubeId: ytId, audioUrl:'', sections: parseChordText(raw), _custom: true };
+  SAMPLE_MYSONGS.push(song);
+  saveCustomMySongs();
+  renderMySongs();
+  ['adm-ms-title','adm-ms-desc','adm-ms-yt','adm-ms-chords'].forEach(id=>document.getElementById(id).value='');
+  adminFeedback('adm-ms-feedback', `✅ "${title}" added to My Songs!`, true);
+  adminRenderMySongsList();
+}
+
+function adminRenderMySongsList() {
+  const el = document.getElementById('adm-mysongs-list');
+  if (!el) return;
+  if (!SAMPLE_MYSONGS.length) { el.innerHTML = '<p style="color:var(--white-dim);font-size:12px">No compositions yet.</p>'; return; }
+  el.innerHTML = SAMPLE_MYSONGS.map(s => `
+    <div class="adm-manage-row">
+      <div class="mr-info">
+        <h4>${s.title}</h4>
+        <p>Key of ${s.key} · ${(s.tags||[]).join(', ')}</p>
+      </div>
+      ${s._custom ? `<button class="adm-del-btn" onclick="adminDeleteMySong(${s.id})">Delete</button>` : ''}
+    </div>
+  `).join('');
+}
+function adminDeleteMySong(id) {
+  if (!confirm('Delete this composition?')) return;
+  const idx = SAMPLE_MYSONGS.findIndex(s=>s.id===id);
+  if (idx>-1) SAMPLE_MYSONGS.splice(idx,1);
+  saveCustomMySongs();
+  renderMySongs();
+  adminRenderMySongsList();
+}
+
+/* ── ADD SERMON ── */
+function adminAddSermon() {
+  const title   = document.getElementById('adm-ser-title').value.trim();
+  const passage = document.getElementById('adm-ser-passage').value.trim();
+  const preacher= document.getElementById('adm-ser-preacher').value.trim() || 'Pastor';
+  const dateVal = document.getElementById('adm-ser-date').value;
+  const theme   = document.getElementById('adm-ser-theme').value;
+  const icon    = document.getElementById('adm-ser-icon').value.trim() || '🎵';
+  const pdf     = document.getElementById('adm-ser-pdf').value.trim();
+  const outRaw  = document.getElementById('adm-ser-outline').value.trim();
+  const notes   = document.getElementById('adm-ser-notes').value.trim();
+  if (!title || !outRaw) { adminFeedback('adm-ser-feedback','Please fill in Title and Outline.',false); return; }
+  const outline = outRaw.split('\n').map(l=>l.trim()).filter(Boolean);
+  const dateStr = dateVal ? new Date(dateVal).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) : new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+  const sermon = { id: nextId(SAMPLE_SERMONS), title, passage, preacher, date: dateStr, theme, icon, outline, notes, pdfUrl: pdf, _custom: true };
+  SAMPLE_SERMONS.push(sermon);
+  saveCustomSermons();
+  renderSermons(state.sermonFilter);
+  ['adm-ser-title','adm-ser-passage','adm-ser-preacher','adm-ser-date','adm-ser-icon','adm-ser-pdf','adm-ser-outline','adm-ser-notes'].forEach(id=>document.getElementById(id).value='');
+  adminFeedback('adm-ser-feedback', `✅ "${title}" added to Sermons!`, true);
+  adminRenderSermonsList();
+}
+
+function adminRenderSermonsList() {
+  const el = document.getElementById('adm-sermons-list');
+  if (!el) return;
+  if (!SAMPLE_SERMONS.length) { el.innerHTML = '<p style="color:var(--white-dim);font-size:12px">No sermons yet.</p>'; return; }
+  el.innerHTML = SAMPLE_SERMONS.map(s => `
+    <div class="adm-manage-row">
+      <div class="mr-info">
+        <h4>${s.icon||'🎵'} ${s.title}</h4>
+        <p>${s.passage} · ${s.date} · ${s.theme}${s.pdfUrl ? ' · <span style="color:var(--gold)">📄 PDF</span>' : ''}</p>
+      </div>
+      ${s._custom ? `<button class="adm-del-btn" onclick="adminDeleteSermon(${s.id})">Delete</button>` : ''}
+    </div>
+  `).join('');
+}
+function adminDeleteSermon(id) {
+  if (!confirm('Delete this sermon?')) return;
+  const idx = SAMPLE_SERMONS.findIndex(s=>s.id===id);
+  if (idx>-1) SAMPLE_SERMONS.splice(idx,1);
+  saveCustomSermons();
+  renderSermons(state.sermonFilter);
+  adminRenderSermonsList();
+}
+
+/* ── ADD BOOK ── */
+function adminAddBook() {
+  const title  = document.getElementById('adm-bk-title').value.trim();
+  const author = document.getElementById('adm-bk-author').value.trim();
+  const tag    = document.getElementById('adm-bk-tag').value;
+  const color  = document.getElementById('adm-bk-color').value;
+  const pdf    = document.getElementById('adm-bk-pdf').value.trim();
+  const notes  = document.getElementById('adm-bk-notes').value.trim();
+  const recent = document.getElementById('adm-bk-recent').checked;
+  if (!title || !author) { adminFeedback('adm-bk-feedback','Please fill in Title and Author.',false); return; }
+  const book = { id: nextId(SAMPLE_BOOKS), title, author, tag, color, pdfUrl: pdf, notes, recent, _custom: true };
+  SAMPLE_BOOKS.push(book);
+  saveCustomBooks();
+  renderBooks();
+  renderHome();
+  ['adm-bk-title','adm-bk-author','adm-bk-pdf','adm-bk-notes'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('adm-bk-recent').checked=false;
+  adminFeedback('adm-bk-feedback', `✅ "${title}" added to Books!`, true);
+  adminRenderBooksList();
+}
+
+function adminRenderBooksList() {
+  const el = document.getElementById('adm-books-list');
+  if (!el) return;
+  if (!SAMPLE_BOOKS.length) { el.innerHTML = '<p style="color:var(--white-dim);font-size:12px">No books yet.</p>'; return; }
+  el.innerHTML = SAMPLE_BOOKS.map(b => `
+    <div class="adm-manage-row">
+      <div style="width:10px;height:40px;border-radius:2px;background:${b.color};flex-shrink:0"></div>
+      <div class="mr-info">
+        <h4>${b.title}</h4>
+        <p>${b.author} · ${b.tag}${b.pdfUrl?` · <span style="color:var(--gold)">📄 PDF linked</span>`:''}</p>
+      </div>
+      ${b.pdfUrl ? `<button class="adm-pick-btn" onclick="openPdfViewer('${b.pdfUrl}','${b.title.replace(/'/g,'\\'')}')">📄 View</button>` : ''}
+      ${b._custom ? `<button class="adm-del-btn" onclick="adminDeleteBook(${b.id})">Delete</button>` : ''}
+    </div>
+  `).join('');
+}
+function adminDeleteBook(id) {
+  if (!confirm('Delete this book?')) return;
+  const idx = SAMPLE_BOOKS.findIndex(b=>b.id===id);
+  if (idx>-1) SAMPLE_BOOKS.splice(idx,1);
+  saveCustomBooks();
+  renderBooks();
+  renderHome();
+  adminRenderBooksList();
+}
+
+/* ── PDF VIEWER ── */
+function openPdfViewer(url, title) {
+  // Convert Drive share URL to embed URL
+  let embedUrl = url;
+  const fileIdMatch = url.match(/\/file\/d\/([^/]+)\//);
+  if (fileIdMatch) {
+    embedUrl = `https://drive.google.com/file/d/${fileIdMatch[1]}/preview`;
+  }
+  document.getElementById('pdf-viewer-title').textContent = title || 'Document';
+  document.getElementById('pdf-viewer-open').href = url;
+  document.getElementById('pdf-viewer-frame').src = embedUrl;
+  document.getElementById('pdf-viewer-overlay').classList.add('open');
+}
+function closePdfViewer() {
+  document.getElementById('pdf-viewer-overlay').classList.remove('open');
+  document.getElementById('pdf-viewer-frame').src = '';
+}
+
+/* ── Update sermon card to show PDF button ── */
+function renderSermons(filter) {
+  const filtered = filter && filter !== 'All'
+    ? SAMPLE_SERMONS.filter(s => s.theme === filter)
+    : SAMPLE_SERMONS;
+  const container = document.getElementById('sermons-container');
+  container.innerHTML = filtered.map(s => `
+    <div class="sermon-card">
+      <div class="sermon-icon">${s.icon}</div>
+      <div class="sermon-info">
+        <h3>${s.title}</h3>
+        <p>${s.preacher} · ${s.date}</p>
+        <div class="sermon-meta">
+          <span class="badge badge-gold">${s.theme}</span>
+          <span class="badge badge-blue">${s.passage}</span>
+          ${s.pdfUrl ? `<button class="ghost-btn" style="padding:3px 10px;font-size:11px" onclick="openPdfViewer('${s.pdfUrl}','${s.title.replace(/'/g,"\\'")}')">📄 Notes PDF</button>` : ''}
+          <button class="sermon-pulpit-btn" onclick="openPulpit(${s.id})">🎙 Pulpit View</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+/* ── Update pulpit to show full notes ── */
+function openPulpit(id) {
+  const sermon = SAMPLE_SERMONS.find(s => s.id === id);
+  if (!sermon) return;
+  state.pulpitSermonId = id;
+  document.getElementById('pulpit-sermon-name').textContent = sermon.title;
+  document.getElementById('pulpit-title').textContent = sermon.title;
+  document.getElementById('pulpit-passage').textContent = sermon.passage;
+  document.getElementById('pulpit-outline').innerHTML = sermon.outline.map((pt, i) => `
+    <li data-n="${i+1}">${pt}</li>
+  `).join('');
+  // Add notes section if present
+  const notesHtml = sermon.notes ? `
+    <div style="margin-top:36px;padding-top:28px;border-top:1px solid rgba(255,255,255,0.06)">
+      <div style="font-family:'Cinzel',serif;font-size:11px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:16px">Full Notes</div>
+      <div style="font-size:16px;color:var(--white-dim);line-height:1.9;white-space:pre-wrap">${sermon.notes}</div>
+    </div>
+  ` : '';
+  const pdfBtn = sermon.pdfUrl ? `
+    <div style="margin-top:20px">
+      <button class="ghost-btn" onclick="openPdfViewer('${sermon.pdfUrl}','${sermon.title.replace(/'/g,"\\'")}')">📄 Open Sermon PDF</button>
+    </div>
+  ` : '';
+  document.getElementById('pulpit-outline').innerHTML += notesHtml + pdfBtn;
+  resetTimer();
+  document.getElementById('pulpit-mode').classList.add('open');
+}
+
+/* ── Update books page to show PDF button ── */
+function renderBooks() {
+  const container = document.getElementById('bookshelf-container');
+  container.innerHTML = SAMPLE_BOOKS.map(b => `
+    <div class="book-card" onclick="${b.pdfUrl ? `openPdfViewer('${b.pdfUrl}','${b.title.replace(/'/g,"\\'")}')` : 'void(0)'}">
+      <div class="book-spine" style="background:${b.color}"></div>
+      <div class="book-cover">
+        <h4>${b.title}</h4>
+        <p>${b.author}</p>
+        <div class="book-tag"><span class="badge badge-gold">${b.tag}</span></div>
+        ${b.recent ? '<div style="margin-top:6px"><span class="badge badge-green">Recently Read</span></div>' : ''}
+        ${b.pdfUrl ? '<div style="margin-top:6px"><span class="badge badge-blue">📄 PDF</span></div>' : ''}
+        ${b.notes ? '<div style="margin-top:6px"><span class="badge" style="background:rgba(140,100,200,0.15);color:#c0a0f0;border:1px solid rgba(140,100,200,0.3)">📝 Notes</span></div>' : ''}
+      </div>
+    </div>
+  `).join('');
+  const savedKey = localStorage.getItem('sow_apikey');
+  if (savedKey) { document.getElementById('claude-api-key').value = savedKey; state.apiKey = savedKey; }
+}
+
+/* ── AI search with book notes context ── */
+async function aiSearch() {
+  const query = document.getElementById('ai-search-input').value.trim();
+  if (!query) return;
+  const apiKey = state.apiKey || localStorage.getItem('sow_apikey');
+  if (!apiKey) {
+    document.getElementById('ai-answer').textContent = 'Please enter and save your Claude API key in Admin → Settings first.';
+    document.getElementById('ai-answer').classList.add('show');
+    return;
+  }
+  const loadingEl = document.getElementById('ai-loading');
+  const answerEl  = document.getElementById('ai-answer');
+  loadingEl.classList.add('show');
+  answerEl.classList.remove('show');
+
+  // Build context from book notes
+  const bookContext = SAMPLE_BOOKS.filter(b=>b.notes).map(b=>`Book: "${b.title}" by ${b.author}\nNotes: ${b.notes}`).join('\n\n');
+  const systemPrompt = `You are a theology assistant for a worship collective (SOWCollective). Answer questions about Christian theology, worship, and the Bible with depth and faithfulness.${bookContext ? `\n\nThe user has the following personal study notes from their library:\n\n${bookContext}\n\nReference these notes where relevant.` : ''}`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true' },
+      body: JSON.stringify({ model:'claude-sonnet-4-20250514', max_tokens:1000, system: systemPrompt, messages:[{role:'user',content:query}] })
+    });
+    const data = await res.json();
+    const text = data.content?.[0]?.text || 'No response received.';
+    answerEl.textContent = text;
+    answerEl.classList.add('show');
+  } catch(e) {
+    answerEl.textContent = `Error: ${e.message}`;
+    answerEl.classList.add('show');
+  } finally {
+    loadingEl.classList.remove('show');
+  }
+}
+
+/* ── Settings ── */
+function adminLoadSettings() {
+  const key = localStorage.getItem('sow_apikey');
+  if (key) document.getElementById('settings-api-key').value = key;
+  if (state.ytLink) {
+    document.getElementById('settings-yt-url').value   = state.ytLink.videoId || '';
+    document.getElementById('settings-yt-title').value = state.ytLink.title   || '';
+    document.getElementById('settings-yt-sub').value   = state.ytLink.subtitle|| '';
+  }
+}
+function adminSaveApiKey() {
+  const key = document.getElementById('settings-api-key').value.trim();
+  state.apiKey = key;
+  localStorage.setItem('sow_apikey', key);
+  document.getElementById('claude-api-key').value = key;
+  adminFeedback('adm-key-feedback','✅ API key saved!', true);
+}
+function adminSaveYt() {
+  const raw   = document.getElementById('settings-yt-url').value.trim();
+  const title = document.getElementById('settings-yt-title').value.trim();
+  const sub   = document.getElementById('settings-yt-sub').value.trim();
+  let videoId = raw;
+  const m = raw.match(/(?:v=|youtu\.be\/)([A-Za-z0-9_-]{11})/);
+  if (m) videoId = m[1];
+  state.ytLink = { videoId, title, subtitle: sub };
+  saveState();
+  renderYtCard();
+  alert('✅ Latest Release updated!');
+}
+
+/* ── Export / Import ── */
+function adminExportData() {
+  const data = {
+    songs:   SONG_LIBRARY.filter(s=>s._custom),
+    mysongs: SAMPLE_MYSONGS.filter(s=>s._custom),
+    sermons: SAMPLE_SERMONS.filter(s=>s._custom),
+    books:   SAMPLE_BOOKS.filter(b=>b._custom),
+    ytLink:  state.ytLink,
+    exported: new Date().toISOString()
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'sowcollective-backup.json';
+  a.click();
+}
+function adminImportData() { document.getElementById('import-file').click(); }
+function adminDoImport(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (data.songs)   { data.songs.forEach(s=>{s._custom=true; if(!SONG_LIBRARY.find(x=>x.id===s.id)) SONG_LIBRARY.push(s);}); saveCustomSongs(); renderLibrary(); }
+      if (data.mysongs) { data.mysongs.forEach(s=>{s._custom=true; if(!SAMPLE_MYSONGS.find(x=>x.id===s.id)) SAMPLE_MYSONGS.push(s);}); saveCustomMySongs(); renderMySongs(); }
+      if (data.sermons) { data.sermons.forEach(s=>{s._custom=true; if(!SAMPLE_SERMONS.find(x=>x.id===s.id)) SAMPLE_SERMONS.push(s);}); saveCustomSermons(); renderSermons(state.sermonFilter); }
+      if (data.books)   { data.books.forEach(b=>{b._custom=true; if(!SAMPLE_BOOKS.find(x=>x.id===b.id)) SAMPLE_BOOKS.push(b);}); saveCustomBooks(); renderBooks(); }
+      if (data.ytLink)  { state.ytLink = data.ytLink; saveState(); renderYtCard(); }
+      alert('✅ Backup imported successfully!');
+    } catch(err) { alert('❌ Invalid backup file: ' + err.message); }
+  };
+  reader.readAsText(file);
+}
+function adminClearData() {
+  if (!confirm('⚠️ This will delete ALL your custom songs, sermons, books and compositions. Are you sure?')) return;
+  ['sow_custom_songs','sow_custom_mysongs','sow_custom_sermons','sow_custom_books','sow_state','sow_apikey'].forEach(k=>localStorage.removeItem(k));
+  location.reload();
+}
+
+/* ══════════════════════════════════════════
    INIT
 ══════════════════════════════════════════ */
 function init() {
   loadPersisted();
+  loadCustomData();       // load any saved custom content first
   renderHome();
   renderLibrary();
   renderMySongs();
