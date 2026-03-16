@@ -3822,17 +3822,22 @@ function adminRenderBooksList() {
   const el = document.getElementById('adm-books-list');
   if (!el) return;
   if (!SAMPLE_BOOKS.length) { el.innerHTML = '<p style="color:var(--white-dim);font-size:12px">No books yet.</p>'; return; }
-  el.innerHTML = SAMPLE_BOOKS.map(b => `
-    <div class="adm-manage-row">
+  el.innerHTML = SAMPLE_BOOKS.map(b => {
+    const viewBtn = b.pdfUrl
+      ? `<button class="adm-pick-btn" data-pdf="${b.pdfUrl}" data-title="${(b.title||'').replace(/"/g,'&quot;')}" onclick="openPdfViewer(this.dataset.pdf,this.dataset.title)">📄 View</button>`
+      : '';
+    const delBtn = b._custom
+      ? `<button class="adm-del-btn" onclick="adminDeleteBook(${b.id})">Delete</button>`
+      : '';
+    return `<div class="adm-manage-row">
       <div style="width:10px;height:40px;border-radius:2px;background:${b.color};flex-shrink:0"></div>
       <div class="mr-info">
         <h4>${b.title}</h4>
-        <p>${b.author} · ${b.tag}${b.pdfUrl?` · <span style="color:var(--gold)">📄 PDF linked</span>`:''}</p>
+        <p>${b.author} · ${b.tag}${b.pdfUrl ? ' · <span style="color:var(--gold)">📄 PDF linked</span>' : ''}</p>
       </div>
-      ${b.pdfUrl ? `<button class="adm-pick-btn" onclick="openPdfViewer('${b.pdfUrl}','${b.title.replace(/'/g,'\\'')}')">📄 View</button>` : ''}
-      ${b._custom ? `<button class="adm-del-btn" onclick="adminDeleteBook(${b.id})">Delete</button>` : ''}
-    </div>
-  `).join('');
+      ${viewBtn}${delBtn}
+    </div>`;
+  }).join('');
 }
 function adminDeleteBook(id) {
   if (!confirm('Delete this book?')) return;
@@ -3868,8 +3873,11 @@ function renderSermons(filter) {
     ? SAMPLE_SERMONS.filter(s => s.theme === filter)
     : SAMPLE_SERMONS;
   const container = document.getElementById('sermons-container');
-  container.innerHTML = filtered.map(s => `
-    <div class="sermon-card">
+  container.innerHTML = filtered.map(s => {
+    const pdfBtn = s.pdfUrl
+      ? `<button class="ghost-btn" style="padding:3px 10px;font-size:11px" data-pdf="${s.pdfUrl}" data-title="${(s.title||'').replace(/"/g,'&quot;')}" onclick="openPdfViewer(this.dataset.pdf,this.dataset.title)">📄 Notes PDF</button>`
+      : '';
+    return `<div class="sermon-card">
       <div class="sermon-icon">${s.icon}</div>
       <div class="sermon-info">
         <h3>${s.title}</h3>
@@ -3877,12 +3885,12 @@ function renderSermons(filter) {
         <div class="sermon-meta">
           <span class="badge badge-gold">${s.theme}</span>
           <span class="badge badge-blue">${s.passage}</span>
-          ${s.pdfUrl ? `<button class="ghost-btn" style="padding:3px 10px;font-size:11px" onclick="openPdfViewer('${s.pdfUrl}','${s.title.replace(/'/g,"\\'")}')">📄 Notes PDF</button>` : ''}
+          ${pdfBtn}
           <button class="sermon-pulpit-btn" onclick="openPulpit(${s.id})">🎙 Pulpit View</button>
         </div>
       </div>
-    </div>
-  `).join('');
+    </div>`;
+  }).join('');
 }
 
 /* ── Update pulpit to show full notes ── */
@@ -3893,22 +3901,23 @@ function openPulpit(id) {
   document.getElementById('pulpit-sermon-name').textContent = sermon.title;
   document.getElementById('pulpit-title').textContent = sermon.title;
   document.getElementById('pulpit-passage').textContent = sermon.passage;
-  document.getElementById('pulpit-outline').innerHTML = sermon.outline.map((pt, i) => `
-    <li data-n="${i+1}">${pt}</li>
-  `).join('');
-  // Add notes section if present
-  const notesHtml = sermon.notes ? `
-    <div style="margin-top:36px;padding-top:28px;border-top:1px solid rgba(255,255,255,0.06)">
+  document.getElementById('pulpit-outline').innerHTML = sermon.outline.map((pt, i) =>
+    `<li data-n="${i+1}">${pt}</li>`
+  ).join('');
+
+  let extra = '';
+  if (sermon.notes) {
+    extra += `<div style="margin-top:36px;padding-top:28px;border-top:1px solid rgba(255,255,255,0.06)">
       <div style="font-family:'Cinzel',serif;font-size:11px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:16px">Full Notes</div>
       <div style="font-size:16px;color:var(--white-dim);line-height:1.9;white-space:pre-wrap">${sermon.notes}</div>
-    </div>
-  ` : '';
-  const pdfBtn = sermon.pdfUrl ? `
-    <div style="margin-top:20px">
-      <button class="ghost-btn" onclick="openPdfViewer('${sermon.pdfUrl}','${sermon.title.replace(/'/g,"\\'")}')">📄 Open Sermon PDF</button>
-    </div>
-  ` : '';
-  document.getElementById('pulpit-outline').innerHTML += notesHtml + pdfBtn;
+    </div>`;
+  }
+  if (sermon.pdfUrl) {
+    extra += `<div style="margin-top:20px">
+      <button class="ghost-btn" data-pdf="${sermon.pdfUrl}" data-title="${(sermon.title||'').replace(/"/g,'&quot;')}" onclick="openPdfViewer(this.dataset.pdf,this.dataset.title)">📄 Open Sermon PDF</button>
+    </div>`;
+  }
+  document.getElementById('pulpit-outline').innerHTML += extra;
   resetTimer();
   document.getElementById('pulpit-mode').classList.add('open');
 }
@@ -3916,8 +3925,9 @@ function openPulpit(id) {
 /* ── Update books page to show PDF button ── */
 function renderBooks() {
   const container = document.getElementById('bookshelf-container');
-  container.innerHTML = SAMPLE_BOOKS.map(b => `
-    <div class="book-card" onclick="${b.pdfUrl ? `openPdfViewer('${b.pdfUrl}','${b.title.replace(/'/g,"\\'")}')` : 'void(0)'}">
+  container.innerHTML = SAMPLE_BOOKS.map(b => {
+    const clickAction = b.pdfUrl ? 'openPdfViewer(this.dataset.pdf, this.dataset.title)' : '';
+    return `<div class="book-card" data-pdf="${b.pdfUrl||''}" data-title="${(b.title||'').replace(/"/g,'&quot;')}" onclick="${clickAction}" style="${b.pdfUrl?'cursor:pointer':''}">
       <div class="book-spine" style="background:${b.color}"></div>
       <div class="book-cover">
         <h4>${b.title}</h4>
@@ -3927,10 +3937,10 @@ function renderBooks() {
         ${b.pdfUrl ? '<div style="margin-top:6px"><span class="badge badge-blue">📄 PDF</span></div>' : ''}
         ${b.notes ? '<div style="margin-top:6px"><span class="badge" style="background:rgba(140,100,200,0.15);color:#c0a0f0;border:1px solid rgba(140,100,200,0.3)">📝 Notes</span></div>' : ''}
       </div>
-    </div>
-  `).join('');
+    </div>`;
+  }).join('');
   const savedKey = localStorage.getItem('sow_apikey');
-  if (savedKey) { document.getElementById('claude-api-key').value = savedKey; state.apiKey = savedKey; }
+  if (savedKey) { const el = document.getElementById('claude-api-key'); if(el) el.value = savedKey; state.apiKey = savedKey; }
 }
 
 /* ── AI search with book notes context ── */
