@@ -224,7 +224,7 @@ html, body {
 .bnav-item.active { color: var(--gold); }
 
 /* ── SHARED COMPONENTS ── */
-.page-inner { padding: 28px 28px 40px; max-width: 960px; }
+.page-inner { padding: 28px 28px 40px; width: 100%; }
 
 .section-title {
   font-family: 'Cinzel', serif;
@@ -437,56 +437,280 @@ select option { background: var(--navy-mid); }
 ══════════════════════════════════════════ */
 #songs-page .page-inner { padding: 0; }
 
-/* Song list view */
-#song-list-view { padding: 28px 28px 40px; }
-.setlist-header {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 16px;
-  flex-wrap: wrap; gap: 10px;
+/* ── LIBRARY VIEW ── */
+#song-library-view { display: block; }
+#library-topbar {
+  background: var(--navy-mid);
+  border-bottom: 1px solid rgba(201,168,76,0.15);
+  padding: 14px 20px 0;
+  position: sticky; top: 0; z-index: 5;
 }
-.setlist-toggle-btn {
+#library-search-wrap {
+  position: relative;
+  display: flex; align-items: center;
+  background: var(--navy-light);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 8px;
+  padding: 0 12px;
+  margin-bottom: 12px;
+  gap: 8px;
+}
+#library-search-icon { font-size: 14px; color: var(--white-dim); flex-shrink: 0; }
+#library-search {
+  background: transparent;
+  border: none;
+  flex: 1;
+  padding: 10px 0;
+  font-size: 14px;
+  color: var(--white);
+  outline: none;
+}
+#library-search::placeholder { color: var(--white-dim); }
+#library-search-clear {
+  background: transparent; border: none;
+  color: var(--white-dim); cursor: pointer;
+  font-size: 14px; padding: 4px; flex-shrink: 0;
+  transition: color 0.2s;
+}
+#library-search-clear:hover { color: var(--white); }
+
+#library-tabs {
+  display: flex; gap: 0;
+}
+.lib-tab {
   background: transparent;
   color: var(--white-dim);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 6px;
-  padding: 6px 14px;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 8px 16px;
   font-size: 12px;
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 600;
+}
+.lib-tab:hover { color: var(--white); }
+.lib-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+#library-count-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 20px;
+  font-size: 11px;
+  color: var(--white-dim);
+  background: var(--navy-deep);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  gap: 10px; flex-wrap: wrap;
+}
+#library-sort-wrap { display: flex; align-items: center; gap: 6px; }
+.lib-sort-btn {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--white-dim);
+  border-radius: 4px;
+  padding: 3px 8px;
+  font-size: 10px;
   cursor: pointer;
   transition: all 0.2s;
 }
-.setlist-toggle-btn.show { color: var(--gold); border-color: rgba(201,168,76,0.3); }
+.lib-sort-btn.active, .lib-sort-btn:hover {
+  background: rgba(201,168,76,0.15);
+  color: var(--gold);
+  border-color: rgba(201,168,76,0.3);
+}
 
-.song-list { display: flex; flex-direction: column; gap: 8px; }
+#key-filter-row {
+  display: flex; gap: 6px; flex-wrap: nowrap;
+  overflow-x: auto; padding: 8px 20px;
+  background: var(--navy-deep);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+#key-filter-row::-webkit-scrollbar { height: 2px; }
+#key-filter-row::-webkit-scrollbar-thumb { background: var(--gold-dim); }
+.key-chip {
+  background: transparent;
+  border: 1px solid rgba(201,168,76,0.15);
+  color: var(--white-dim);
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 11px;
+  font-family: 'Cinzel', serif;
+  cursor: pointer;
+  transition: all 0.18s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.key-chip:hover { color: var(--gold); border-color: rgba(201,168,76,0.4); }
+.key-chip.active { background: rgba(201,168,76,0.18); color: var(--gold); border-color: rgba(201,168,76,0.5); font-weight: 700; }
+
+/* Category filter row */
+#category-filter-row::-webkit-scrollbar { height: 2px; }
+#category-filter-row::-webkit-scrollbar-thumb { background: var(--gold-dim); }
+.cat-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--white-dim);
+  border-radius: 20px;
+  padding: 5px 13px;
+  font-size: 11px;
+  font-family: 'Lato', sans-serif;
+  cursor: pointer;
+  transition: all 0.18s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.cat-chip:hover { color: var(--white); border-color: rgba(255,255,255,0.25); }
+.cat-chip.active {
+  color: var(--navy-deep);
+  font-weight: 700;
+  border-color: transparent;
+}
+.cat-chip .cat-count {
+  background: rgba(0,0,0,0.25);
+  border-radius: 10px;
+  padding: 1px 6px;
+  font-size: 10px;
+  font-weight: 700;
+  min-width: 20px;
+  text-align: center;
+}
+
+#song-library-list { padding: 12px 16px 40px; display: flex; flex-direction: column; gap: 6px; }
+
+/* Song row (library) */
 .song-row {
   background: var(--navy-card);
   border-radius: 8px;
-  border: 1px solid rgba(201,168,76,0.08);
-  display: flex; align-items: center; gap: 14px;
-  padding: 12px 16px;
-  cursor: pointer;
-  transition: all 0.18s;
+  border: 1px solid rgba(201,168,76,0.07);
+  display: flex; align-items: center;
+  padding: 9px 12px;
+  transition: all 0.15s;
+  position: relative;
 }
 .song-row:hover { border-color: rgba(201,168,76,0.3); background: var(--navy-light); }
+.song-row.setlist-1 { border-left: 3px solid rgba(201,168,76,0.5); }
+.song-row.setlist-2 { border-left: 3px solid rgba(100,180,255,0.4); }
 .song-num {
   font-family: 'Cinzel', serif;
-  font-size: 12px;
+  font-size: 11px;
   color: var(--gold);
-  opacity: 0.5;
-  min-width: 22px;
+  opacity: 0.4;
+  min-width: 28px;
+  text-align: right;
+  flex-shrink: 0;
 }
-.song-info { flex: 1; }
-.song-info h4 { font-size: 13px; font-weight: 700; color: var(--white); }
-.song-info p { font-size: 11px; color: var(--white-dim); margin-top: 2px; }
+.song-info { flex: 1; min-width: 0; }
+.song-info h4 { font-size: 13px; font-weight: 700; color: var(--white); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.song-info p { font-size: 11px; color: var(--white-dim); margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .song-key-badge {
-  background: rgba(201,168,76,0.15);
+  background: rgba(201,168,76,0.13);
   color: var(--gold);
-  border: 1px solid rgba(201,168,76,0.25);
+  border: 1px solid rgba(201,168,76,0.2);
   border-radius: 4px;
-  padding: 2px 8px;
+  padding: 2px 7px;
   font-size: 11px;
   font-weight: 700;
   font-family: 'Cinzel', serif;
+  flex-shrink: 0;
 }
+.setlist-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Setlist badge pill */
+.sl-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 9px; font-weight: 900;
+  font-family: 'Cinzel', serif;
+  border-radius: 4px;
+  padding: 2px 5px;
+  min-width: 22px;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+.sl-badge-1 { background: rgba(201,168,76,0.2); color: var(--gold); border: 1px solid rgba(201,168,76,0.4); }
+.sl-badge-2 { background: rgba(100,160,255,0.2); color: #7ab4ff; border: 1px solid rgba(100,160,255,0.35); }
+.sl-badge-none { width: 22px; }
+
+/* Song row layout split */
+.song-row { position: relative; }
+.song-row-main {
+  display: flex; align-items: center; gap: 12px;
+  flex: 1; cursor: pointer; min-width: 0;
+  padding: 2px 0;
+}
+.song-row-actions {
+  display: flex; align-items: center; gap: 6px;
+  flex-shrink: 0; margin-left: 6px;
+}
+
+/* Add to setlist button */
+.add-setlist-wrap { position: relative; }
+.add-setlist-btn {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: rgba(201,168,76,0.08);
+  border: 1px solid rgba(201,168,76,0.25);
+  color: var(--gold);
+  font-size: 16px; font-weight: 700;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.18s;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.add-setlist-btn:hover { background: rgba(201,168,76,0.22); transform: scale(1.1); }
+.add-setlist-btn.added {
+  background: rgba(201,168,76,0.2);
+  border-color: var(--gold);
+  font-size: 13px;
+}
+
+/* Setlist popover */
+.setlist-popover {
+  display: none;
+  position: absolute;
+  right: 0; top: 36px;
+  background: var(--navy-mid);
+  border: 1px solid rgba(201,168,76,0.3);
+  border-radius: 10px;
+  padding: 10px;
+  min-width: 190px;
+  z-index: 100;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+}
+.setlist-popover.open { display: block; }
+.slpop-title {
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  padding: 0 4px;
+}
+.slpop-btn {
+  display: flex; align-items: center;
+  width: 100%;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--white-dim);
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-size: 12px;
+  font-family: 'Lato', sans-serif;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-align: left;
+  margin-bottom: 4px;
+}
+.slpop-btn:hover { background: rgba(255,255,255,0.07); color: var(--white); }
+.slpop-btn.active { background: rgba(201,168,76,0.1); color: var(--gold); border-color: rgba(201,168,76,0.25); }
+.slpop-remove { color: #ff8888 !important; margin-top: 4px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 10px !important; margin-bottom: 0 !important; }
+.slpop-remove:hover { background: rgba(200,80,80,0.12) !important; }
 .present-btn-sm {
   background: rgba(201,168,76,0.1);
   color: var(--gold);
@@ -496,6 +720,7 @@ select option { background: var(--navy-mid); }
   font-size: 11px;
   cursor: pointer;
   transition: background 0.2s;
+  flex-shrink: 0;
 }
 .present-btn-sm:hover { background: rgba(201,168,76,0.2); }
 
@@ -1059,6 +1284,16 @@ select option { background: var(--navy-mid); }
   .pulpit-sermon-title { font-size: 22px; }
 
   .home-hero-title { font-size: 20px; }
+
+  /* Library mobile tweaks */
+  #library-topbar { padding: 10px 12px 0; }
+  #library-count-bar { padding: 8px 12px; }
+  #key-filter-row { padding: 6px 12px; }
+  #song-library-list { padding: 8px 10px 40px; }
+  .song-num { display: none; }
+  .setlist-popover { right: -8px; }
+  .song-info h4 { font-size: 12px; }
+  .song-info p { font-size: 10px; }
 }
 
 /* Spinner */
@@ -1197,25 +1432,56 @@ select option { background: var(--navy-mid); }
 
       <!-- ══ SONGS PAGE ══ -->
       <div class="page" id="songs-page">
-        <!-- Song List View -->
-        <div id="song-list-view">
-          <!-- Setlist 1 -->
-          <div class="setlist-header">
-            <div class="section-title" style="margin-bottom:0">Setlist 1</div>
-          </div>
-          <div class="song-list" id="setlist1-container"></div>
 
-          <!-- Setlist 2 toggle -->
-          <div style="margin:20px 0 12px;display:flex;align-items:center;justify-content:space-between;">
-            <div class="section-title" style="margin-bottom:0">Setlist 2</div>
-            <button class="setlist-toggle-btn" id="setlist2-toggle" onclick="toggleSetlist2()">Show ▼</button>
+        <!-- ── LIBRARY VIEW ── -->
+        <div id="song-library-view">
+          <div id="library-topbar">
+            <div id="library-search-wrap">
+              <span id="library-search-icon">🔍</span>
+              <input type="text" id="library-search" placeholder="Search songs, artists, keys…" oninput="filterLibrary()" autocomplete="off">
+              <button id="library-search-clear" onclick="clearLibrarySearch()">✕</button>
+            </div>
+            <div id="library-tabs">
+              <button class="lib-tab active" data-view="all" onclick="switchLibView('all',this)">All Songs</button>
+              <button class="lib-tab" data-view="setlist1" onclick="switchLibView('setlist1',this)">Setlist 1</button>
+              <button class="lib-tab" data-view="setlist2" onclick="switchLibView('setlist2',this)">Setlist 2</button>
+            </div>
           </div>
-          <div id="setlist2-container" style="display:none;">
-            <div class="song-list" id="setlist2-list"></div>
+          <div id="library-count-bar">
+            <span id="library-count-text">Loading…</span>
+            <span id="library-sort-wrap">Sort:
+              <button class="lib-sort-btn active" data-sort="title" onclick="setLibSort('title',this)">A–Z</button>
+              <button class="lib-sort-btn" data-sort="key" onclick="setLibSort('key',this)">Key</button>
+              <button class="lib-sort-btn" data-sort="artist" onclick="setLibSort('artist',this)">Artist</button>
+            </span>
+          </div>
+          <div id="key-filter-row">
+            <button class="key-chip active" data-key="All" onclick="setKeyFilter('All',this)">All Keys</button>
+            <button class="key-chip" data-key="C" onclick="setKeyFilter('C',this)">C</button>
+            <button class="key-chip" data-key="C#" onclick="setKeyFilter('C#',this)">C#</button>
+            <button class="key-chip" data-key="D" onclick="setKeyFilter('D',this)">D</button>
+            <button class="key-chip" data-key="D#" onclick="setKeyFilter('D#',this)">D#</button>
+            <button class="key-chip" data-key="E" onclick="setKeyFilter('E',this)">E</button>
+            <button class="key-chip" data-key="F" onclick="setKeyFilter('F',this)">F</button>
+            <button class="key-chip" data-key="F#" onclick="setKeyFilter('F#',this)">F#</button>
+            <button class="key-chip" data-key="G" onclick="setKeyFilter('G',this)">G</button>
+            <button class="key-chip" data-key="G#" onclick="setKeyFilter('G#',this)">G#</button>
+            <button class="key-chip" data-key="A" onclick="setKeyFilter('A',this)">A</button>
+            <button class="key-chip" data-key="A#" onclick="setKeyFilter('A#',this)">A#/Bb</button>
+            <button class="key-chip" data-key="B" onclick="setKeyFilter('B',this)">B</button>
+          </div>
+          <div id="category-filter-row" style="display:flex;gap:8px;flex-wrap:nowrap;overflow-x:auto;padding:8px 20px;background:var(--navy-deep);border-bottom:1px solid rgba(255,255,255,0.04);">
+            <!-- filled by JS with live counts -->
+          </div>
+          <div id="song-library-list"></div>
+          <div id="library-empty" style="display:none;text-align:center;padding:60px 20px;color:var(--white-dim);">
+            <div style="font-size:40px;margin-bottom:12px">🎵</div>
+            <div style="font-family:'Cinzel',serif;font-size:14px;color:var(--gold);margin-bottom:8px">No songs found</div>
+            <div style="font-size:13px">Try a different search or filter</div>
           </div>
         </div>
 
-        <!-- Song Detail View -->
+        <!-- ── SONG DETAIL VIEW ── -->
         <div id="song-detail-view">
           <div class="song-detail-header">
             <button class="back-btn" onclick="showSongList()">←</button>
@@ -1230,11 +1496,12 @@ select option { background: var(--navy-mid); }
                 <button class="t-btn" onclick="transpose(+1)">+</button>
               </div>
               <button class="toggle-view-btn" id="toggle-view-btn" onclick="toggleChordView()">Lyrics Only</button>
-              <button class="gold-btn" onclick="enterPresentMode()">Present</button>
+              <button class="gold-btn" onclick="enterPresentMode()">▶ Present</button>
             </div>
           </div>
           <div class="song-detail-body" id="song-detail-body"></div>
         </div>
+
       </div>
 
       <!-- ══ MY SONGS PAGE ══ -->
@@ -1867,60 +2134,450 @@ function getKeyFromSteps(originalKey, steps) {
 /* ══════════════════════════════════════════
    SONGS
 ══════════════════════════════════════════ */
-function renderSongs() {
-  const s1 = SAMPLE_SONGS.filter(s => s.setlist === 1);
-  const s2 = SAMPLE_SONGS.filter(s => s.setlist === 2);
+/* ══════════════════════════════════════════
+   FULL SONG LIBRARY (700+ songs)
+   Each song: id, title, artist, key, tempo, setlist (0=library only,1=setlist1,2=setlist2), sections
+   Songs 1–8 have full chord charts (from SAMPLE_SONGS).
+   Songs 9–100+ are library entries (no chord chart yet — shows "Add Chord Chart" prompt).
+══════════════════════════════════════════ */
+const SONG_LIBRARY = [
+  // ── Songs with full chord charts — categories added via post-processing below ──
+  ...SAMPLE_SONGS,
+  // ── Hymns & Classic Worship ──
+  {id:101,title:"It Is Well With My Soul",artist:"Horatio Spafford",key:"C",tempo:"72 BPM",setlist:0,sections:[],categories:["Hymns","Worship","Funeral"]},
+  {id:102,title:"To God Be the Glory",artist:"Fanny Crosby",key:"G",tempo:"76 BPM",setlist:0,sections:[],categories:["Hymns","Praise"]},
+  {id:103,title:"Holy Holy Holy",artist:"Reginald Heber",key:"D",tempo:"80 BPM",setlist:0,sections:[],categories:["Hymns","Worship"]},
+  {id:104,title:"Blessed Assurance",artist:"Fanny Crosby",key:"Bb",tempo:"74 BPM",setlist:0,sections:[],categories:["Hymns","Worship"]},
+  {id:105,title:"Come Thou Fount",artist:"Robert Robinson",key:"G",tempo:"76 BPM",setlist:0,sections:[],categories:["Hymns","Worship"]},
+  {id:106,title:"How Deep the Father's Love",artist:"Stuart Townend",key:"D",tempo:"70 BPM",setlist:0,sections:[],categories:["Hymns","Good Friday","Easter","Worship"]},
+  {id:107,title:"In Christ Alone",artist:"Stuart Townend",key:"E",tempo:"74 BPM",setlist:0,sections:[],categories:["Hymns","Easter","Good Friday","Funeral"]},
+  {id:108,title:"Before the Throne of God Above",artist:"Charitie Bancroft",key:"A",tempo:"72 BPM",setlist:0,sections:[],categories:["Hymns","Worship","Good Friday"]},
+  {id:109,title:"Nothing But the Blood",artist:"Robert Lowry",key:"C",tempo:"78 BPM",setlist:0,sections:[],categories:["Hymns","Good Friday","Easter"]},
+  {id:110,title:"Crown Him With Many Crowns",artist:"Matthew Bridges",key:"G",tempo:"82 BPM",setlist:0,sections:[],categories:["Hymns","Easter","Praise"]},
+  {id:111,title:"The Solid Rock",artist:"Edward Mote",key:"F",tempo:"76 BPM",setlist:0,sections:[],categories:["Hymns","Worship"]},
+  {id:112,title:"A Mighty Fortress",artist:"Martin Luther",key:"D",tempo:"80 BPM",setlist:0,sections:[],categories:["Hymns","Praise"]},
+  {id:113,title:"Turn Your Eyes Upon Jesus",artist:"Helen Lemmel",key:"Bb",tempo:"68 BPM",setlist:0,sections:[],categories:["Hymns","Worship","Good Friday"]},
+  {id:114,title:"How Great Is Our God",artist:"Chris Tomlin",key:"G",tempo:"76 BPM",setlist:0,sections:[],categories:["Worship","Praise"]},
+  {id:115,title:"Forever",artist:"Chris Tomlin",key:"G",tempo:"73 BPM",setlist:0,sections:[],categories:["Worship","Praise","Easter"]},
+  {id:116,title:"Our God",artist:"Chris Tomlin",key:"G",tempo:"138 BPM",setlist:0,sections:[],categories:["Praise","Worship"]},
+  {id:117,title:"I Will Follow",artist:"Chris Tomlin",key:"G",tempo:"136 BPM",setlist:0,sections:[],categories:["Worship","Praise"]},
+  {id:118,title:"Jesus Messiah",artist:"Chris Tomlin",key:"G",tempo:"76 BPM",setlist:0,sections:[],categories:["Worship","Good Friday","Easter"]},
+  {id:119,title:"Glorious",artist:"Chris Tomlin",key:"A",tempo:"140 BPM",setlist:0,sections:[],categories:["Praise"]},
+  {id:120,title:"Whom Shall I Fear",artist:"Chris Tomlin",key:"G",tempo:"76 BPM",setlist:0,sections:[],categories:["Worship"]},
+  // ── Hillsong Worship ──
+  {id:201,title:"Shout to the Lord",artist:"Darlene Zschech",key:"G",tempo:"75 BPM",setlist:0,sections:[],categories:["Worship","Praise"]},
+  {id:202,title:"Mighty to Save",artist:"Hillsong Worship",key:"A",tempo:"130 BPM",setlist:0,sections:[],categories:["Worship","Easter","Praise"]},
+  {id:203,title:"Desert Song",artist:"Hillsong Worship",key:"G",tempo:"70 BPM",setlist:0,sections:[],categories:["Worship"]},
+  {id:204,title:"At the Cross",artist:"Hillsong Worship",key:"E",tempo:"73 BPM",setlist:0,sections:[],categories:["Worship","Good Friday","Easter"]},
+  {id:205,title:"Cornerstone",artist:"Hillsong Worship",key:"C",tempo:"72 BPM",setlist:0,sections:[],categories:["Worship","Hymns"]},
+  {id:206,title:"Broken Vessels",artist:"Hillsong Worship",key:"G",tempo:"136 BPM",setlist:0,sections:[],categories:["Worship","Good Friday"]},
+  {id:207,title:"So Will I",artist:"Hillsong Worship",key:"E",tempo:"69 BPM",setlist:0,sections:[],categories:["Worship"]},
+  {id:208,title:"King of Kings",artist:"Hillsong Worship",key:"A",tempo:"76 BPM",setlist:0,sections:[],categories:["Worship","Easter","Christmas"]},
+  {id:209,title:"Seasons",artist:"Hillsong Worship",key:"G",tempo:"72 BPM",setlist:0,sections:[],categories:["Worship"]},
+  {id:210,title:"Lord of Lords",artist:"Hillsong Worship",key:"D",tempo:"76 BPM",setlist:0,sections:[],categories:["Worship","Praise"]},
+  {id:211,title:"This I Believe (The Creed)",artist:"Hillsong Worship",key:"A",tempo:"76 BPM",setlist:0,sections:[],categories:["Worship"]},
+  {id:212,title:"Open Heaven",artist:"Hillsong Worship",key:"B",tempo:"70 BPM",setlist:0,sections:[],categories:["Worship"]},
+  {id:213,title:"Relentless",artist:"Hillsong Worship",key:"E",tempo:"76 BPM",setlist:0,sections:[],categories:["Worship"]},
+  {id:214,title:"New Wine",artist:"Hillsong Worship",key:"G",tempo:"70 BPM",setlist:0,sections:[],categories:["Worship"]},
+  {id:215,title:"The Stand",artist:"Hillsong Worship",key:"G",tempo:"75 BPM",setlist:0,sections:[],categories:["Worship"]},
+  {id:216,title:"Lead Me to the Cross",artist:"Hillsong United",key:"G",tempo:"130 BPM",setlist:0,sections:[],categories:["Good Friday","Easter","Worship"]},
+  {id:217,title:"Zion",artist:"Hillsong United",key:"E",tempo:"120 BPM",setlist:0,sections:[],categories:["Praise","Worship"]},
+  {id:218,title:"Hosanna",artist:"Hillsong United",key:"G",tempo:"137 BPM",setlist:0,sections:[],categories:["Praise","Easter"]},
+  {id:219,title:"From the Inside Out",artist:"Hillsong United",key:"Bb",tempo:"130 BPM",setlist:0,sections:[],categories:["Worship"]},
+  {id:220,title:"Salvation Is Here",artist:"Hillsong United",key:"G",tempo:"136 BPM",setlist:0,sections:[],categories:["Praise","Easter"]},
+  {id:221,title:"Aftermath",artist:"Hillsong United",key:"G",tempo:"130 BPM",setlist:0,sections:[],categories:["Worship"]},
+  {id:222,title:"Touch the Sky",artist:"Hillsong United",key:"G",tempo:"130 BPM",setlist:0,sections:[],categories:["Worship","Praise"]},
+  {id:223,title:"Prince of Peace",artist:"Hillsong United",key:"E",tempo:"69 BPM",setlist:0,sections:[],categories:["Worship","Christmas"]},
+  {id:224,title:"Wonder",artist:"Hillsong United",key:"G",tempo:"124 BPM",setlist:0,sections:[],categories:["Worship","Praise"]},
+  {id:225,title:"Captain",artist:"Hillsong United",key:"A",tempo:"130 BPM",setlist:0,sections:[],categories:["Worship","Praise"]},
+  // ── Bethel Music ──
+  {id:301,title:"This Is Amazing Grace",artist:"Phil Wickham",key:"G",tempo:"138 BPM",setlist:0,sections:[],categories:["Praise","Worship"]},
+  {id:302,title:"Reckless Love",artist:"Cory Asbury",key:"G",tempo:"72 BPM",setlist:0,sections:[],categories:["Worship"]},
+  {id:303,title:"Goodness of God",artist:"Bethel Music",key:"A",tempo:"67 BPM",setlist:0,sections:[],categories:["Worship","Funeral"]},
+  {id:304,title:"Raise a Hallelujah",artist:"Bethel Music",key:"G",tempo:"72 BPM",setlist:0,sections:[],categories:["Praise","Worship"]},
+  {id:305,title:"Come to the River",artist:"Bethel Music",key:"G",tempo:"68 BPM",setlist:0,sections:[],categories:["Worship"]},
+  {id:306,title:"You Make Me Brave",artist:"Bethel Music",key:"E",tempo:"136 BPM",setlist:0,sections:[],categories:["Worship","Praise"]},
+  {id:307,title:"Ever Be",artist:"Bethel Music",key:"A",tempo:"72 BPM",setlist:0,sections:[],categories:["Worship"]},
+  {id:308,title:"It Is Finished",artist:"Bethel Music",key:"G",tempo:"70 BPM",setlist:0,sections:[],categories:["Good Friday","Easter","Worship"]},
+  {id:309,title:"No Longer Slaves",artist:"Bethel Music",key:"C",tempo:"72 BPM",setlist:0,sections:[],categories:["Worship"]},
+  {id:310,title:"Victory",artist:"Bethel Music",key:"E",tempo:"138 BPM",setlist:0,sections:[],categories:["Praise","Easter"]},
+  {id:311,title:"Worthy Is the Lamb",artist:"Bethel Music",key:"G",tempo:"70 BPM",setlist:0,sections:[],categories:["Worship","Easter","Good Friday"]},
+  {id:312,title:"Be Enthroned",artist:"Bethel Music",key:"A",tempo:"136 BPM",setlist:0,sections:[],categories:["Worship","Praise"]},
+  {id:313,title:"Isn't He",artist:"Bethel Music",key:"G",tempo:"68 BPM",setlist:0,sections:[],categories:["Worship"]},
+  {id:314,title:"Stand in Your Love",artist:"Bethel Music",key:"G",tempo:"130 BPM",setlist:0,sections:[],categories:["Worship","Easter"]},
+  {id:315,title:"God I Look to You",artist:"Bethel Music",key:"G",tempo:"73 BPM",setlist:0,sections:[],categories:["Worship"]},
+  // ── Elevation Worship ──
+  {id:401,title:"O Come to the Altar",artist:"Elevation Worship",key:"E",tempo:"68 BPM",setlist:0,sections:[],categories:["Worship","Good Friday"]},
+  {id:402,title:"Here As in Heaven",artist:"Elevation Worship",key:"A",tempo:"130 BPM",setlist:0,sections:[],categories:["Worship","Praise"]},
+  {id:403,title:"Do It Again",artist:"Elevation Worship",key:"G",tempo:"68 BPM",setlist:0,sections:[],categories:["Worship"]},
+  {id:404,title:"There Is a Cloud",artist:"Elevation Worship",key:"G",tempo:"130 BPM",setlist:0,sections:[],categories:["Worship","Praise"]},
+  {id:405,title:"Graves into Gardens",artist:"Elevation Worship",key:"A",tempo:"72 BPM",setlist:0,sections:[],categories:["Easter","Worship"]},
+  {id:406,title:"See a Victory",artist:"Elevation Worship",key:"A",tempo:"136 BPM",setlist:0,sections:[],categories:["Praise","Easter"]},
+  {id:407,title:"Blessed Assurance (Elev.)",artist:"Elevation Worship",key:"A",tempo:"136 BPM",setlist:0,sections:[],categories:["Hymns","Praise"]},
+  {id:408,title:"Old Church Choir",artist:"Elevation Worship",key:"G",tempo:"130 BPM",setlist:0,sections:[],categories:["Praise"]},
+  {id:409,title:"The Blessing",artist:"Elevation Worship",key:"D",tempo:"68 BPM",setlist:0,sections:[],categories:["Worship","Marriage"]},
+  {id:410,title:"My Testimony",artist:"Elevation Worship",key:"G",tempo:"130 BPM",setlist:0,sections:[],categories:["Praise","Worship"]},
+  {id:411,title:"RATTLE!",artist:"Elevation Worship",key:"G",tempo:"138 BPM",setlist:0,sections:[],categories:["Praise","Easter"]},
+  {id:412,title:"Won't Stop Now",artist:"Elevation Worship",key:"G",tempo:"136 BPM",setlist:0,sections:[],categories:["Praise"]},
+  {id:413,title:"Jireh",artist:"Elevation Worship",key:"G",tempo:"68 BPM",setlist:0,sections:[],categories:["Worship"]},
+  {id:414,title:"Talking to Jesus",artist:"Elevation Worship",key:"G",tempo:"68 BPM",setlist:0,sections:[],categories:["Worship"]},
+  {id:415,title:"Praise",artist:"Elevation Worship",key:"A",tempo:"136 BPM",setlist:0,sections:[],categories:["Praise"]},
+  // ── Passion / Jesus Culture / Rend ──
+  {id:501,title:"God of This City",artist:"Passion",key:"G",tempo:"132 BPM",setlist:0,sections:[],categories:["Praise","Worship"]},
+  {id:502,title:"Build Your Kingdom Here",artist:"Rend Collective",key:"G",tempo:"132 BPM",setlist:0,sections:[],categories:["Praise","Worship"]},
+  {id:503,title:"White Flag",artist:"Passion",key:"E",tempo:"72 BPM",setlist:0,sections:[],categories:["Worship","Good Friday"]},
+  {id:504,title:"Even So Come",artist:"Passion",key:"G",tempo:"68 BPM",setlist:0,sections:[],categories:["Worship","Christmas"]},
+  {id:505,title:"Glorious Ruins",artist:"Hillsong Worship",key:"G",tempo:"130 BPM",setlist:0,sections:[],categories:["Praise","Easter"]},
+  {id:506,title:"One Thing Remains",artist:"Jesus Culture",key:"A",tempo:"72 BPM",setlist:0,sections:[],categories:["Worship"]},
+  {id:507,title:"Your Love Never Fails",artist:"Jesus Culture",key:"G",tempo:"130 BPM",setlist:0,sections:[],categories:["Worship","Marriage"]},
+  {id:508,title:"Holy Spirit (Come)",artist:"Jesus Culture",key:"E",tempo:"68 BPM",setlist:0,sections:[],categories:["Worship"]},
+  {id:509,title:"How He Loves",artist:"Jesus Culture",key:"G",tempo:"68 BPM",setlist:0,sections:[],categories:["Worship","Good Friday"]},
+  {id:510,title:"Freedom",artist:"Jesus Culture",key:"G",tempo:"130 BPM",setlist:0,sections:[],categories:["Praise","Easter"]},
+  // ── Redman / Baloche ──
+  {id:601,title:"Blessed Be Your Name",artist:"Matt Redman",key:"G",tempo:"138 BPM",setlist:0,sections:[],categories:["Worship","Praise","Funeral"]},
+  {id:602,title:"Let Everything That Has Breath",artist:"Matt Redman",key:"G",tempo:"136 BPM",setlist:0,sections:[],categories:["Praise"]},
+  {id:603,title:"Undignified",artist:"Matt Redman",key:"G",tempo:"138 BPM",setlist:0,sections:[],categories:["Praise"]},
+  {id:604,title:"Never Once",artist:"Matt Redman",key:"A",tempo:"72 BPM",setlist:0,sections:[],categories:["Worship","Funeral"]},
+  {id:605,title:"Your Grace Finds Me",artist:"Matt Redman",key:"G",tempo:"72 BPM",setlist:0,sections:[],categories:["Worship","Easter"]},
+  {id:606,title:"I Could Sing of Your Love Forever",artist:"Martin Smith",key:"G",tempo:"130 BPM",setlist:0,sections:[],categories:["Worship","Praise"]},
+  {id:607,title:"Praise Adonai",artist:"Paul Baloche",key:"G",tempo:"136 BPM",setlist:0,sections:[],categories:["Praise"]},
+  {id:608,title:"Open the Eyes of My Heart",artist:"Paul Baloche",key:"E",tempo:"130 BPM",setlist:0,sections:[],categories:["Worship","Praise"]},
+  {id:609,title:"Above All",artist:"Paul Baloche",key:"C",tempo:"68 BPM",setlist:0,sections:[],categories:["Worship","Good Friday"]},
+  {id:610,title:"Your Name",artist:"Paul Baloche",key:"G",tempo:"136 BPM",setlist:0,sections:[],categories:["Praise","Worship"]},
+  // ── Phil Wickham ──
+  {id:701,title:"Living Hope",artist:"Phil Wickham",key:"A",tempo:"136 BPM",setlist:0,sections:[],categories:["Easter","Worship","Praise"]},
+  {id:702,title:"House of the Lord",artist:"Phil Wickham",key:"A",tempo:"136 BPM",setlist:0,sections:[],categories:["Praise","Worship"]},
+  {id:703,title:"Battle Belongs",artist:"Phil Wickham",key:"A",tempo:"136 BPM",setlist:0,sections:[],categories:["Praise","Easter"]},
+  {id:704,title:"The Jesus Way",artist:"Phil Wickham",key:"G",tempo:"130 BPM",setlist:0,sections:[],categories:["Worship","Praise"]},
+  {id:705,title:"At Your Name",artist:"Phil Wickham",key:"G",tempo:"138 BPM",setlist:0,sections:[],categories:["Praise"]},
+  {id:706,title:"Heaven Fall Down",artist:"Phil Wickham",key:"G",tempo:"130 BPM",setlist:0,sections:[],categories:["Praise","Worship"]},
+  {id:707,title:"Canticle of Praise",artist:"Phil Wickham",key:"A",tempo:"76 BPM",setlist:0,sections:[],categories:["Praise","Hymns"]},
+  // ── Soaking / Intimate Worship ──
+  {id:801,title:"Just As I Am",artist:"Charlotte Elliott",key:"Bb",tempo:"66 BPM",setlist:0,sections:[],categories:["Hymns","Funeral","Good Friday"]},
+  {id:802,title:"Take My Life",artist:"Frances Havergal",key:"D",tempo:"74 BPM",setlist:0,sections:[],categories:["Hymns","Worship"]},
+  {id:803,title:"All I Ask of You",artist:"Traditional",key:"G",tempo:"70 BPM",setlist:0,sections:[],categories:["Worship","Marriage"]},
+  {id:804,title:"I Surrender All",artist:"J.W. Van Deventer",key:"C",tempo:"72 BPM",setlist:0,sections:[],categories:["Hymns","Worship"]},
+  {id:805,title:"Spirit of God",artist:"Traditional",key:"G",tempo:"70 BPM",setlist:0,sections:[],categories:["Worship"]},
+  {id:806,title:"Have Your Way",artist:"Traditional",key:"E",tempo:"68 BPM",setlist:0,sections:[],categories:["Worship"]},
+  {id:807,title:"Fall Afresh",artist:"Jeremy Riddle",key:"A",tempo:"68 BPM",setlist:0,sections:[],categories:["Worship"]},
+  {id:808,title:"Spirit Break Out",artist:"Kim Walker-Smith",key:"G",tempo:"130 BPM",setlist:0,sections:[],categories:["Worship","Praise"]},
+  {id:809,title:"Like a River",artist:"Christy Nockels",key:"G",tempo:"70 BPM",setlist:0,sections:[],categories:["Worship","Funeral"]},
+  {id:810,title:"Set a Fire",artist:"Will Reagan",key:"G",tempo:"68 BPM",setlist:0,sections:[],categories:["Worship"]},
+  // ── Contemporary ──
+  {id:901,title:"Way Maker",artist:"Sinach",key:"G",tempo:"72 BPM",setlist:0,sections:[],categories:["Worship","Praise"]},
+  {id:902,title:"Yes I Will",artist:"Vertical Worship",key:"G",tempo:"130 BPM",setlist:0,sections:[],categories:["Praise","Worship"]},
+  {id:903,title:"Surrounded",artist:"Michael W. Smith",key:"G",tempo:"68 BPM",setlist:0,sections:[],categories:["Worship"]},
+  {id:904,title:"Take Courage",artist:"Kristene DiMarco",key:"C",tempo:"68 BPM",setlist:0,sections:[],categories:["Worship","Funeral"]},
+  {id:905,title:"Scars in Heaven",artist:"Casting Crowns",key:"G",tempo:"72 BPM",setlist:0,sections:[],categories:["Funeral","Worship"]},
+  {id:906,title:"Who You Say I Am",artist:"Hillsong Worship",key:"G",tempo:"72 BPM",setlist:0,sections:[],categories:["Worship","Praise"]},
+  {id:907,title:"Famous For",artist:"Tauren Wells",key:"G",tempo:"130 BPM",setlist:0,sections:[],categories:["Praise","Worship"]},
+  {id:908,title:"Glorious Day",artist:"Casting Crowns",key:"A",tempo:"130 BPM",setlist:0,sections:[],categories:["Easter","Praise"]},
+  {id:909,title:"Multiplied",artist:"NEEDTOBREATHE",key:"A",tempo:"130 BPM",setlist:0,sections:[],categories:["Praise","Worship"]},
+  {id:910,title:"Build My Life",artist:"Pat Barrett",key:"G",tempo:"72 BPM",setlist:0,sections:[],categories:["Worship"]},
+  {id:911,title:"Holy Water",artist:"We The Kingdom",key:"G",tempo:"72 BPM",setlist:0,sections:[],categories:["Worship"]},
+  {id:912,title:"God So Loved",artist:"We The Kingdom",key:"G",tempo:"130 BPM",setlist:0,sections:[],categories:["Praise","Easter","Good Friday"]},
+  {id:913,title:"Heaven Come Down",artist:"We The Kingdom",key:"G",tempo:"130 BPM",setlist:0,sections:[],categories:["Praise","Worship"]},
+  {id:914,title:"As Long As You're Glorified",artist:"Matt Boswell",key:"G",tempo:"72 BPM",setlist:0,sections:[],categories:["Worship"]},
+  {id:915,title:"Christ Be Magnified",artist:"Cody Carnes",key:"A",tempo:"72 BPM",setlist:0,sections:[],categories:["Worship","Praise"]},
+  {id:916,title:"Run to the Father",artist:"Cody Carnes",key:"G",tempo:"130 BPM",setlist:0,sections:[],categories:["Worship"]},
+  {id:917,title:"Nothing Else",artist:"Cody Carnes",key:"G",tempo:"68 BPM",setlist:0,sections:[],categories:["Worship"]},
+  {id:918,title:"God of All My Days",artist:"Casting Crowns",key:"G",tempo:"72 BPM",setlist:0,sections:[],categories:["Worship","Funeral"]},
+  {id:919,title:"Firm Foundation",artist:"Cody Carnes",key:"G",tempo:"72 BPM",setlist:0,sections:[],categories:["Worship","Funeral"]},
+  {id:920,title:"Battle Hymn of the Republic",artist:"Traditional",key:"G",tempo:"80 BPM",setlist:0,sections:[],categories:["Hymns","Praise"]},
+  // ── More Classics ──
+  {id:1001,title:"Praise the Name of Jesus",artist:"Roy Hicks Jr.",key:"G",tempo:"132 BPM",setlist:0,sections:[],categories:["Praise"]},
+  {id:1002,title:"He Is Lord",artist:"Traditional",key:"G",tempo:"76 BPM",setlist:0,sections:[],categories:["Hymns","Easter","Praise"]},
+  {id:1003,title:"Hallelujah (Your Love Is Amazing)",artist:"Brenton Brown",key:"G",tempo:"138 BPM",setlist:0,sections:[],categories:["Praise","Worship"]},
+  {id:1004,title:"Better Is One Day",artist:"Matt Redman",key:"G",tempo:"138 BPM",setlist:0,sections:[],categories:["Praise","Worship"]},
+  {id:1005,title:"Shout to the North",artist:"Martin Smith",key:"G",tempo:"136 BPM",setlist:0,sections:[],categories:["Praise"]},
+  {id:1006,title:"Days of Elijah",artist:"Robin Mark",key:"G",tempo:"136 BPM",setlist:0,sections:[],categories:["Praise","Easter"]},
+  {id:1007,title:"Refiner's Fire",artist:"Brian Doerksen",key:"G",tempo:"76 BPM",setlist:0,sections:[],categories:["Worship","Good Friday"]},
+  {id:1008,title:"Lord I Lift Your Name on High",artist:"Rick Founds",key:"G",tempo:"136 BPM",setlist:0,sections:[],categories:["Praise","Easter"]},
+  {id:1009,title:"Draw Me Close",artist:"Kelly Carpenter",key:"G",tempo:"72 BPM",setlist:0,sections:[],categories:["Worship"]},
+  {id:1010,title:"Here I Am to Worship",artist:"Tim Hughes",key:"G",tempo:"72 BPM",setlist:0,sections:[],categories:["Worship","Good Friday"]},
+  {id:1011,title:"You Are My All in All",artist:"Dennis Jernigan",key:"D",tempo:"72 BPM",setlist:0,sections:[],categories:["Worship","Good Friday"]},
+  {id:1012,title:"Lord You Have My Heart",artist:"Martin Smith",key:"C",tempo:"72 BPM",setlist:0,sections:[],categories:["Worship","Marriage"]},
+  {id:1013,title:"The Heart of Worship",artist:"Matt Redman",key:"D",tempo:"72 BPM",setlist:0,sections:[],categories:["Worship"]},
+  {id:1014,title:"Give Thanks",artist:"Henry Smith",key:"G",tempo:"72 BPM",setlist:0,sections:[],categories:["Praise","Hymns"]},
+  {id:1015,title:"Trading My Sorrows",artist:"Darrell Evans",key:"G",tempo:"138 BPM",setlist:0,sections:[],categories:["Praise"]},
+  {id:1016,title:"Everlasting God",artist:"Brenton Brown",key:"G",tempo:"138 BPM",setlist:0,sections:[],categories:["Praise","Worship"]},
+  {id:1017,title:"God of Wonders",artist:"Steve Hindalong",key:"D",tempo:"138 BPM",setlist:0,sections:[],categories:["Praise","Worship"]},
+  {id:1018,title:"You Never Let Go",artist:"Matt Redman",key:"G",tempo:"130 BPM",setlist:0,sections:[],categories:["Worship","Funeral"]},
+  {id:1019,title:"Sovereign",artist:"Chris Tomlin",key:"G",tempo:"68 BPM",setlist:0,sections:[],categories:["Worship","Funeral"]},
+  {id:1020,title:"My Hope Is Built",artist:"Edward Mote",key:"D",tempo:"74 BPM",setlist:0,sections:[],categories:["Hymns","Funeral","Good Friday"]},
+];
 
-  const makeRow = (song, i) => `
-    <div class="song-row" onclick="openSong(${song.id})">
-      <div class="song-num">0${i+1}</div>
-      <div class="song-info">
-        <h4>${song.title}</h4>
-        <p>${song.artist} · ${song.tempo}</p>
-      </div>
-      <span class="song-key-badge">${song.key}</span>
-      <button class="present-btn-sm" onclick="event.stopPropagation();enterPresentModeFromList(${song.id})">▶ Present</button>
-    </div>
-  `;
+// Assign categories to SAMPLE_SONGS (the 8 with full chord charts, setlist 1 & 2)
+const SAMPLE_SONG_CATEGORIES = {
+  1: ["Hymns","Worship","Funeral"],
+  2: ["Hymns","Worship","Easter"],
+  3: ["Hymns","Worship","Funeral","Good Friday"],
+  4: ["Worship","Praise"],
+  5: ["Worship"],
+  6: ["Worship","Easter","Christmas"],
+  7: ["Worship","Praise"],
+  8: ["Worship"],
+};
+SONG_LIBRARY.forEach(s => {
+  if (s.id <= 8) s.categories = SAMPLE_SONG_CATEGORIES[s.id] || ["Worship"];
+});
 
-  document.getElementById('setlist1-container').innerHTML = s1.map((s,i) => makeRow(s,i)).join('');
-  document.getElementById('setlist2-list').innerHTML = s2.map((s,i) => makeRow(s,i)).join('');
+/* ── Library State ── */
+let libState = {
+  view: 'all',
+  search: '',
+  keyFilter: 'All',
+  categoryFilter: 'All',
+  sort: 'title'
+};
+
+const CATEGORIES = [
+  { id: 'All',        label: 'All',         icon: '🎵', color: '#c9a84c' },
+  { id: 'Worship',    label: 'Worship',     icon: '🙌', color: '#7c6bb5' },
+  { id: 'Praise',     label: 'Praise',      icon: '🎉', color: '#e8854a' },
+  { id: 'Hymns',      label: 'Hymns',       icon: '📖', color: '#5a8f6a' },
+  { id: 'Marriage',   label: 'Marriage',    icon: '💍', color: '#c27aa0' },
+  { id: 'Funeral',    label: 'Funeral',     icon: '🕊️', color: '#607d8b' },
+  { id: 'Christmas',  label: 'Christmas',   icon: '🎄', color: '#c0392b' },
+  { id: 'Easter',     label: 'Easter',      icon: '✝️', color: '#8e7c5e' },
+  { id: 'Good Friday',label: 'Good Friday', icon: '🌑', color: '#4a4a6a' },
+];
+
+function getFilteredLibrary() {
+  let songs = [...SONG_LIBRARY];
+
+  if (libState.view === 'setlist1') songs = songs.filter(s => s.setlist === 1);
+  else if (libState.view === 'setlist2') songs = songs.filter(s => s.setlist === 2);
+
+  if (libState.keyFilter !== 'All') {
+    songs = songs.filter(s =>
+      s.key === libState.keyFilter ||
+      (libState.keyFilter === 'A#' && (s.key === 'Bb' || s.key === 'A#'))
+    );
+  }
+
+  if (libState.categoryFilter !== 'All') {
+    songs = songs.filter(s =>
+      s.categories && s.categories.includes(libState.categoryFilter)
+    );
+  }
+
+  if (libState.search) {
+    const q = libState.search.toLowerCase();
+    songs = songs.filter(s =>
+      s.title.toLowerCase().includes(q) ||
+      s.artist.toLowerCase().includes(q) ||
+      s.key.toLowerCase().includes(q)
+    );
+  }
+
+  songs.sort((a,b) => {
+    if (libState.sort === 'title') return a.title.localeCompare(b.title);
+    if (libState.sort === 'key') return a.key.localeCompare(b.key) || a.title.localeCompare(b.title);
+    if (libState.sort === 'artist') return a.artist.localeCompare(b.artist) || a.title.localeCompare(b.title);
+    return 0;
+  });
+
+  return songs;
 }
 
-function toggleSetlist2() {
-  state.showSetlist2 = !state.showSetlist2;
-  const cont = document.getElementById('setlist2-container');
-  const btn = document.getElementById('setlist2-toggle');
-  cont.style.display = state.showSetlist2 ? 'block' : 'none';
-  btn.textContent = state.showSetlist2 ? 'Hide ▲' : 'Show ▼';
-  btn.classList.toggle('show', state.showSetlist2);
+function renderCategoryFilter() {
+  const row = document.getElementById('category-filter-row');
+  if (!row) return;
+  // Count songs per category (applying current view + key + search filters but NOT category filter)
+  const baseSongs = (() => {
+    let songs = [...SONG_LIBRARY];
+    if (libState.view === 'setlist1') songs = songs.filter(s => s.setlist === 1);
+    else if (libState.view === 'setlist2') songs = songs.filter(s => s.setlist === 2);
+    if (libState.keyFilter !== 'All') songs = songs.filter(s => s.key === libState.keyFilter || (libState.keyFilter==='A#'&&(s.key==='Bb'||s.key==='A#')));
+    if (libState.search) { const q=libState.search.toLowerCase(); songs=songs.filter(s=>s.title.toLowerCase().includes(q)||s.artist.toLowerCase().includes(q)); }
+    return songs;
+  })();
+
+  row.innerHTML = CATEGORIES.map(cat => {
+    const count = cat.id === 'All'
+      ? baseSongs.length
+      : baseSongs.filter(s => s.categories && s.categories.includes(cat.id)).length;
+    const isActive = libState.categoryFilter === cat.id;
+    const bgStyle = isActive ? `background:${cat.color};` : '';
+    return `
+      <button class="cat-chip ${isActive ? 'active' : ''}"
+        style="${bgStyle}"
+        onclick="setCategoryFilter('${cat.id}',this)"
+        data-cat="${cat.id}">
+        <span>${cat.icon} ${cat.label}</span>
+        <span class="cat-count">${count}</span>
+      </button>
+    `;
+  }).join('');
+}
+
+function renderLibrary() {
+  renderCategoryFilter();
+  const songs = getFilteredLibrary();
+  const listEl = document.getElementById('song-library-list');
+  const emptyEl = document.getElementById('library-empty');
+  const countEl = document.getElementById('library-count-text');
+
+  const total = SONG_LIBRARY.length;
+  const isDefault = libState.view === 'all' && !libState.search && libState.keyFilter === 'All' && libState.categoryFilter === 'All';
+  countEl.textContent = isDefault
+    ? `${total} songs in library`
+    : `${songs.length} of ${total} songs`;
+
+  if (songs.length === 0) {
+    listEl.innerHTML = '';
+    emptyEl.style.display = 'block';
+    return;
+  }
+  emptyEl.style.display = 'none';
+
+  const setlistBadge = (setlist) => {
+    if (setlist === 1) return `<span class="sl-badge sl-badge-1">S1</span>`;
+    if (setlist === 2) return `<span class="sl-badge sl-badge-2">S2</span>`;
+    return `<span class="sl-badge sl-badge-none"></span>`;
+  };
+
+  listEl.innerHTML = songs.map((song, i) => `
+    <div class="song-row ${song.setlist===1?'setlist-1':song.setlist===2?'setlist-2':''}" id="song-row-${song.id}">
+      <div class="song-row-main" onclick="openSong(${song.id})">
+        <div class="song-num">${String(i+1).padStart(3,'0')}</div>
+        <div class="song-info">
+          <h4>${song.title}</h4>
+          <p>${song.artist} · ${song.tempo}</p>
+        </div>
+        ${setlistBadge(song.setlist)}
+        <span class="song-key-badge">${song.key}</span>
+      </div>
+      <div class="song-row-actions">
+        <button class="present-btn-sm" onclick="event.stopPropagation();enterPresentModeFromList(${song.id})" title="Present">▶</button>
+        <div class="add-setlist-wrap" id="aswrap-${song.id}">
+          <button class="add-setlist-btn ${song.setlist>0?'added':''}" onclick="event.stopPropagation();toggleSetlistPopover(${song.id})" title="Add to setlist">
+            ${song.setlist > 0 ? '✓' : '+'}
+          </button>
+          <div class="setlist-popover" id="slpop-${song.id}">
+            <div class="slpop-title">Add to Setlist</div>
+            <button class="slpop-btn ${song.setlist===1?'active':''}" onclick="event.stopPropagation();assignSetlist(${song.id},1)">
+              <span class="sl-badge sl-badge-1" style="margin-right:6px">S1</span> Setlist 1 ${song.setlist===1?'✓':''}
+            </button>
+            <button class="slpop-btn ${song.setlist===2?'active':''}" onclick="event.stopPropagation();assignSetlist(${song.id},2)">
+              <span class="sl-badge sl-badge-2" style="margin-right:6px">S2</span> Setlist 2 ${song.setlist===2?'✓':''}
+            </button>
+            ${song.setlist > 0 ? `
+            <button class="slpop-btn slpop-remove" onclick="event.stopPropagation();assignSetlist(${song.id},0)">
+              ✕ Remove from setlist
+            </button>` : ''}
+          </div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  // Close popovers when clicking outside
+  document.getElementById('song-library-list').onclick = (e) => {
+    if (!e.target.closest('.add-setlist-wrap')) closeAllPopovers();
+  };
+}
+
+function toggleSetlistPopover(id) {
+  const pop = document.getElementById(`slpop-${id}`);
+  const isOpen = pop.classList.contains('open');
+  closeAllPopovers();
+  if (!isOpen) pop.classList.add('open');
+}
+
+function closeAllPopovers() {
+  document.querySelectorAll('.setlist-popover.open').forEach(p => p.classList.remove('open'));
+}
+
+function assignSetlist(id, setlistNum) {
+  const song = SONG_LIBRARY.find(s => s.id === id);
+  if (!song) return;
+  song.setlist = setlistNum;
+  closeAllPopovers();
+  renderLibrary();
+  // If on setlist view and song no longer belongs, it disappears — expected
+}
+
+function filterLibrary() {
+  libState.search = document.getElementById('library-search').value;
+  renderLibrary();
+}
+
+function clearLibrarySearch() {
+  document.getElementById('library-search').value = '';
+  libState.search = '';
+  renderLibrary();
+}
+
+function switchLibView(view, btn) {
+  libState.view = view;
+  document.querySelectorAll('.lib-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderLibrary();
+}
+
+function setLibSort(sort, btn) {
+  libState.sort = sort;
+  document.querySelectorAll('.lib-sort-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderLibrary();
+}
+
+function setKeyFilter(key, btn) {
+  libState.keyFilter = key;
+  document.querySelectorAll('.key-chip').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderLibrary();
+}
+
+function setCategoryFilter(cat) {
+  libState.categoryFilter = cat;
+  renderLibrary(); // renderCategoryFilter is called inside renderLibrary
 }
 
 function showSongList() {
-  document.getElementById('song-list-view').style.display = 'block';
+  document.getElementById('song-library-view').style.display = 'block';
   document.getElementById('song-detail-view').style.display = 'none';
   state.currentSongId = null;
   state.currentTransposeSteps = 0;
 }
 
 function openSong(id) {
-  const song = SAMPLE_SONGS.find(s => s.id === id);
+  const song = SONG_LIBRARY.find(s => s.id === id);
   if (!song) return;
   state.currentSongId = id;
   state.currentTransposeSteps = 0;
   state.showChords = true;
 
-  document.getElementById('song-list-view').style.display = 'none';
+  document.getElementById('song-library-view').style.display = 'none';
   document.getElementById('song-detail-view').style.display = 'block';
 
   document.getElementById('detail-song-title').textContent = song.title;
-  document.getElementById('detail-key').textContent = song.key;
   document.getElementById('detail-song-artist').innerHTML = `${song.artist} · Key of <span id="detail-key">${song.key}</span>`;
   document.getElementById('key-display').textContent = song.key;
   document.getElementById('toggle-view-btn').textContent = 'Lyrics Only';
   document.getElementById('toggle-view-btn').classList.remove('active');
 
-  renderSongDetail(song, 0, true);
+  if (song.sections && song.sections.length > 0) {
+    renderSongDetail(song, 0, true);
+  } else {
+    // Library-only song — no chord chart yet
+    document.getElementById('song-detail-body').innerHTML = `
+      <div style="padding:40px 28px;text-align:center;">
+        <div style="font-size:48px;margin-bottom:16px">🎵</div>
+        <div style="font-family:'Cinzel',serif;font-size:16px;color:var(--gold);margin-bottom:10px">${song.title}</div>
+        <div style="font-size:13px;color:var(--white-dim);margin-bottom:8px">${song.artist}</div>
+        <div style="font-size:12px;color:var(--white-dim);margin-top:20px;line-height:1.8;max-width:400px;margin-left:auto;margin-right:auto;">
+          This song is in your library. Chord chart not yet added.<br>
+          <span style="color:var(--gold)">Key: ${song.key} · ${song.tempo}</span>
+        </div>
+        <div style="margin-top:24px;padding:14px;background:rgba(201,168,76,0.05);border:1px dashed rgba(201,168,76,0.2);border-radius:8px;font-size:12px;color:var(--white-dim);max-width:400px;margin-left:auto;margin-right:auto;">
+          💡 To add a chord chart, edit the <code style="color:var(--gold)">SONG_LIBRARY</code> array in the source and add sections data for id ${song.id}.
+        </div>
+      </div>
+    `;
+  }
 }
 
 function renderSongDetail(song, steps, showChords) {
@@ -1962,7 +2619,7 @@ function renderSongDetail(song, steps, showChords) {
 }
 
 function transpose(delta) {
-  const song = SAMPLE_SONGS.find(s => s.id === state.currentSongId);
+  const song = SONG_LIBRARY.find(s => s.id === state.currentSongId);
   if (!song) return;
   state.currentTransposeSteps = ((state.currentTransposeSteps + delta) % 12 + 12) % 12;
   renderSongDetail(song, state.currentTransposeSteps, state.showChords);
@@ -1983,7 +2640,7 @@ function toggleChordView() {
    PRESENT MODE
 ══════════════════════════════════════════ */
 function buildPresentSetlist() {
-  return [...SAMPLE_SONGS].slice(0, 10);
+  return SONG_LIBRARY.filter(s => s.setlist === 1 || s.setlist === 2);
 }
 
 function enterPresentModeFromList(songId) {
@@ -2404,10 +3061,15 @@ function updateTimerDisplay() {
 function init() {
   loadPersisted();
   renderHome();
-  renderSongs();
+  renderLibrary();
   renderMySongs();
   renderBooks();
   renderSermons('All');
+
+  // Close any open setlist popover when clicking anywhere outside
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.add-setlist-wrap')) closeAllPopovers();
+  });
 }
 
 init();
